@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Metafive.ai — Architecture des niveaux de service, Cloud et SRE | Mohamed Ben Lakhoua</title>
+<meta name="description" content="Conseil et formation pour des plateformes critiques fiables, mesurables et maîtrisées en coût : SLI, SLO, OLA, SLA, architecture Cloud, SRE et FinOps. Banque, secteur public, environnements régulés.">
+<link rel="canonical" href="https://www.metafive.ai/">
+<link rel="alternate" hreflang="fr" href="https://www.metafive.ai/">
+<link rel="alternate" hreflang="en" href="https://www.metafive.ai/en/">
+<link rel="alternate" hreflang="x-default" href="https://www.metafive.ai/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Metafive.ai — Architecture des niveaux de service, Cloud et SRE | Mohamed Ben Lakhoua">
+<meta property="og:description" content="Conseil et formation pour des plateformes critiques fiables, mesurables et maîtrisées en coût : SLI, SLO, OLA, SLA, architecture Cloud, SRE et FinOps. Banque, secteur public, environnements régulés.">
+<meta property="og:url" content="https://www.metafive.ai/">
+<meta property="og:image" content="https://www.metafive.ai/assets/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#14212B">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"Metafive.ai","url":"https://www.metafive.ai","email":"mo@metafive.ai","areaServed":"FR","address":{"@type":"PostalAddress","addressLocality":"Courbevoie","addressCountry":"FR"},"founder":{"@type":"Person","name":"Mohamed Ben Lakhoua","jobTitle":"Infrastructure & Cloud Architect","sameAs":["https://www.linkedin.com/in/mohamed-ben-lakhoua/","https://github.com/mlakhoua-rgb"]}}</script>
+</head>
+<body>
+<a class="skip" href="#main">Aller au contenu</a>
+<header class="top"><div class="wrap">
+  <a class="brand" href="/"><span class="brand-mark" aria-hidden="true"></span>Metafive<span class="brand-tld">.ai</span></a>
+  <nav class="nav" aria-label="Sections"><a href="#chaine">Méthode</a><a href="#conseil">Conseil</a><a href="#formation">Formation</a><a href="#references">Références</a><a href="#apropos">À propos</a></nav>
+  <a class="lang" href="/en/" hreflang="en" lang="en" title="English">EN</a>
+  <a class="btn btn--small" href="https://calendly.com/metafive" rel="noopener">Prendre rendez-vous</a>
+</div></header>
+
+<main id="main">
+<section class="hero"><div class="wrap">
+  <div>
+    <h1>Des niveaux de service que vous pouvez mesurer, tenir et défendre.</h1>
+    <p class="hero-p">J&#x27;aide les équipes qui exploitent des plateformes critiques — banque, secteur public, environnements régulés — à transformer leurs engagements de service en une chaîne mesurable : de ce que la plateforme tient réellement jusqu&#x27;au contrat signé avec le client.</p>
+    <div class="hero-actions">
+      <a class="btn" href="https://calendly.com/metafive" rel="noopener">Prendre rendez-vous</a>
+      <a class="btn btn--ghost" href="#chaine">Voir l&#x27;accompagnement</a>
+    </div>
+    <p class="sig"><img src="/assets/img/mohamed-ben-lakhoua.webp" alt="" width="52" height="52">Mohamed Ben Lakhoua · Architecte Infrastructure &amp; Cloud · 30 ans de plateformes critiques</p>
+  </div>
+  <div class="panel" data-panel data-per-month="/ mois" data-per-year="par an">
+    <h2 class="panel-title">La chaîne d&#x27;engagement, calculée</h2>
+    <fieldset><legend>Disponibilité promise au client</legend><div class="seg"><input type="radio" name="sla" id="sla-99-5" value="99.5"><label for="sla-99-5">99,5 %</label><input type="radio" name="sla" id="sla-99-9" value="99.9" checked><label for="sla-99-9">99,9 %</label><input type="radio" name="sla" id="sla-99-95" value="99.95"><label for="sla-99-95">99,95 %</label><input type="radio" name="sla" id="sla-99-99" value="99.99"><label for="sla-99-99">99,99 %</label></div></fieldset>
+    <ol class="chain" aria-live="polite"><li data-k="sla"><span class="k">SLA</span><span class="v" data-v="sla">99,9 %</span><span class="d">L&#x27;engagement contractuel envers le client, avec crédits et pénalités.</span></li><li data-k="slo"><span class="k">SLO</span><span class="v" data-v="slo">99,95 %</span><span class="d">L&#x27;objectif interne, plus strict, qui garde une marge avant la pénalité.</span></li><li data-k="budget"><span class="k">Budget d&#x27;erreur</span><span class="v" data-v="budget">22 min<small>/ mois</small></span><span class="d">L&#x27;indisponibilité tolérée par mois au niveau du SLO. Soit <span data-budget-year>4 h 23 par an</span>.</span></li><li data-k="ola"><span class="k">OLA par équipe</span><span class="v" data-v="ola">99,983 %</span><span class="d">Ce que chacune des 3 équipes en série doit tenir pour que le SLO tienne.</span></li><li data-k="sli"><span class="k">SLI</span><span class="v" data-v="sli">≥ 99,95 %</span><span class="d">La mesure qui fait foi : requêtes réussies / requêtes totales, sur 30 jours glissants.</span></li><li data-k="cap"><span class="k">Capacité mesurée</span><span class="v" data-v="cap">&gt; 99,95 %</span><span class="d">Ce que la plateforme tient aujourd&#x27;hui, mesuré avant de s&#x27;engager.</span></li></ol>
+    <p class="panel-note">Hypothèses d&#x27;illustration : SLO = SLA avec 50 % de marge sur le budget d&#x27;erreur ; 3 équipes en série ; mois de 30 jours.</p>
+  </div>
+</div></section>
+
+<section class="section" id="chaine" aria-labelledby="chaine-h"><div class="wrap">
+  <div class="section-head"><h2 id="chaine-h">Mesurer avant de s&#x27;engager</h2><p class="lead">Un SLA n&#x27;est opposable que s&#x27;il repose sur des OLA tenables, eux-mêmes adossés à des mesures fiables. J&#x27;interviens à chaque étape de la mission, du cadrage à la gouvernance.</p></div>
+  <ol class="steps"><li><h3>Cadrer</h3><p>Audit de l&#x27;existant, cartographie des services et des dépendances, benchmark des SLA du marché (fournisseurs cloud, secteur bancaire).</p></li><li><h3>Concevoir</h3><p>Modèle SLI → SLO → OLA → SLA, catalogue de services, paliers d&#x27;engagement, matrices de traçabilité SLA/OLA.</p></li><li><h3>Formaliser</h3><p>Fiches SLA et OLA, matrices RACI par domaine, méthodes de calcul documentées et auditables.</p></li><li><h3>Outiller</h3><p>Métrologie à partir des outils existants, tableaux de bord opérationnels et exécutifs, reporting automatisé.</p></li><li><h3>Gouverner</h3><p>Revues de service, processus ITIL, conformité ISO 22301, feuille de route et acculturation SRE des équipes.</p></li></ol>
+</div></section>
+
+<section class="section" id="conseil" aria-labelledby="conseil-h"><div class="wrap">
+  <div class="section-head"><h2 id="conseil-h">Conseil</h2><p class="lead">Des missions d&#x27;architecture et de gouvernance — sur site ou hybrides en Île-de-France, ou à distance.</p></div>
+  <dl class="offers"><div class="offer"><dt>Architecture des niveaux de service</dt><dd>Chaîne SLI → SLO → OLA → SLA mesurable et opposable, crédits et pénalités, revues de service. Pour un portefeuille de produits IaaS, CaaS et PaaS comme pour un contrat unique.</dd></div><div class="offer"><dt>Architecture Cloud &amp; Infrastructure</dt><dd>Offres IaaS / CaaS / PaaS, résilience et PCA/PRA (ISO 22301), cloud privé, AWS, Azure, OpenShift : ce que l&#x27;architecture permet réellement de promettre.</dd></div><div class="offer"><dt>SRE &amp; observabilité</dt><dd>Modèle opérationnel du Run, gestion des incidents P1, post-mortems, budgets d&#x27;erreur, gouvernance Design-to-Run.</dd></div><div class="offer"><dt>FinOps</dt><dd>Arbitrages coût / performance / disponibilité, showback et chargeback, négociation fournisseurs. 250 K$ à 750 K$ d&#x27;économies annuelles obtenues sur une plateforme mondiale.</dd></div><div class="offer"><dt>IA dans les opérations</dt><dd>Gouvernance des agents de code et de l&#x27;IA dans les opérations IT : règles, garde-fous, mesure.</dd></div></dl>
+</div></section>
+
+<section class="section" id="formation" aria-labelledby="formation-h"><div class="wrap">
+  <div class="section-head"><h2 id="formation-h">Formation</h2><p class="lead">Des ateliers concrets pour les équipes Run, Product et les managers, construits sur vos propres services. En français, en anglais ou en arabe, en intra-entreprise.</p></div>
+  <div class="train">
+    <ul class="modules"><li><strong>SRE &amp; SLO</strong><span>Définir des SLI utiles, fixer des SLO, piloter par le budget d&#x27;erreur.</span></li><li><strong>Service Level Management</strong><span>Rédiger des SLA et des OLA tenables, de la mesure au contrat.</span></li><li><strong>FinOps</strong><span>Rendre le coût du cloud visible et arbitrable.</span></li><li><strong>DevOps &amp; Platform Engineering</strong><span>Golden paths, libre-service, indicateurs DORA.</span></li><li><strong>IA dans les opérations IT</strong><span>Usages, risques et gouvernance.</span></li></ul>
+    <aside class="proof"><h3>Former à grande échelle</h3><ul><li>Formateur aux 15ᵉ Jeux asiatiques de Doha (2006) : un programme qui a formé plus de 31 500 bénévoles et salariés, en anglais et en arabe.</li><li>Création de la première académie e-Learning Microsoft du Golfe : plus de 1 000 professionnels IT formés.</li><li>Série vidéo « From SLI to SLO » et communauté « SRE Champions » au sein d&#x27;un grand groupe bancaire français.</li></ul></aside>
+  </div>
+</div></section>
+
+<section class="section" id="references" aria-labelledby="references-h"><div class="wrap">
+  <div class="section-head"><h2 id="references-h">Références</h2><p class="lead">Trente ans de plateformes en production là où l&#x27;indisponibilité coûte cher.</p></div>
+  <dl class="figures"><div><dt>99,99 %</dt><dd>de disponibilité tenue sur une plateforme mondiale de 8 millions d&#x27;utilisateurs</dd></div><div><dt>60+</dt><dd>contrats d&#x27;hébergement aux SLA et OLA négociés et tenus</dd></div><div><dt>14 ans</dt><dd>d&#x27;audits ISO 27001, ISO 22301 et BSI sans écart critique</dd></div><div><dt>13 M€</dt><dd>de P&amp;L piloté, à 40 % d&#x27;EBIT</dd></div></dl>
+  <div class="refs-cols">
+    <div><h3>Environnements</h3><ul class="plain"><li>e-Government d&#x27;Abu Dhabi — 50+ ministères, agences et banques, Tier-4, 24/7</li><li>OTAN</li><li>Office européen des brevets</li><li>Bourse de Stuttgart</li><li>15+ agences fédérales allemandes (BSI IT-Grundschutz)</li><li>The Sandbox — plateforme grand public, 8M+ utilisateurs</li><li>Un grand groupe bancaire français</li></ul></div>
+    <div><h3>Certifications</h3><ul class="plain"><li>ITIL 4 Foundation</li><li>ISO 22301 Lead Implementer</li><li>MIT Sloan — AI: Implications for Business Strategy</li><li>Certified AI Security Expert (CAISE)</li><li>Certified Web 3.0 Professional (CW3P)</li><li>Generative AI for Leaders — Vanderbilt University</li></ul></div>
+  </div>
+</div></section>
+
+<section class="section" id="apropos" aria-labelledby="apropos-h"><div class="wrap about">
+  <picture><source srcset="/assets/img/mohamed-ben-lakhoua.webp" type="image/webp"><img src="/assets/img/mohamed-ben-lakhoua.jpg" alt="Mohamed Ben Lakhoua" width="640" height="640" loading="lazy"></picture>
+  <div class="about-text"><h2 id="apropos-h">À propos</h2><div style="margin-top:1.25rem"><p>Je suis Mohamed Ben Lakhoua, architecte Infrastructure &amp; Cloud et fondateur de Metafive.ai. Depuis 1995, j&#x27;ai conçu et gouverné des plateformes critiques en Tunisie, au Qatar, aux Émirats arabes unis, en Allemagne et en France, et dirigé des organisations de 25 à 144 personnes sur quatre continents.</p><p>Aujourd&#x27;hui, j&#x27;accompagne les directions d&#x27;infrastructure sur l&#x27;architecture de leurs niveaux de service, et je forme les équipes à les tenir. Ingénieur SUP&#x27;COM, je travaille en français, en anglais et en arabe.</p></div><div class="links"><a href="https://www.linkedin.com/in/mohamed-ben-lakhoua/" rel="noopener">LinkedIn</a><a href="https://github.com/metafive-ai/service-level-management" rel="noopener">Référentiel SLM open source</a><a href="https://github.com/mlakhoua-rgb" rel="noopener">GitHub</a></div></div>
+</div></section>
+</main>
+
+<section class="contact" id="contact" aria-labelledby="contact-h"><div class="wrap">
+  <h2 id="contact-h">Parlons de vos engagements de service</h2>
+  <p>Un premier échange de 30 minutes pour comprendre votre contexte : périmètre, enjeux, échéances.</p>
+  <div class="hero-actions">
+    <a class="btn btn--light" href="https://calendly.com/metafive" rel="noopener">Prendre rendez-vous</a>
+    <a class="btn btn--ghost" href="mailto:mo@metafive.ai">Écrire un email · mo@metafive.ai</a>
+  </div>
+  <p class="where">Basé à Paris – La Défense. Missions sur site, hybrides ou à distance.</p>
+</div></section>
+
+<footer class="foot"><div class="wrap">
+  <span>© 2026 Metafive.ai</span>
+  <details><summary>Mentions légales</summary><p>Éditeur et directeur de la publication : Mohamed Ben Lakhoua (Metafive.ai), Courbevoie, France — mo@metafive.ai.</p><p>Hébergement : Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, États-Unis.</p><p>Ce site ne dépose aucun cookie et n&#x27;utilise aucun outil de mesure d&#x27;audience. La prise de rendez-vous est assurée par Calendly ; les vidéos, lorsqu&#x27;elles sont lancées, par YouTube.</p></details>
+</div></footer>
+<script src="/assets/site.js" defer></script>
+</body>
+</html>
