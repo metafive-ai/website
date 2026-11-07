@@ -195,6 +195,20 @@ def page(T):
                   f'<div class="section-head"><h2 id="videos-h">{e(T["videos_h2"])}</h2><p class="lead">{e(T["videos_intro"])}</p></div>'
                   f'<div class="videos">{items}</div><p class="video-consent">{e(T["video_consent"])}</p></div></section>')
 
+    doors = "".join(
+        f'<a class="door" href="{h}"><span class="door-k">{e(k)}</span><span class="door-t">{e(t)}</span></a>'
+        for h, k, t in T["doors"])
+    roles = "".join(f"<li>{e(x)}</li>" for x in T["lead_roles"])
+    tl = "".join(
+        f'<li class="tl-item"><span class="tl-when">{e(when)}</span><div class="tl-body"><h4>{e(role)}</h4>'
+        f'<p class="tl-org">{e(org)}</p><p class="tl-ctx">{e(ctx)}</p><ul>' + "".join(f"<li>{e(x)}</li>" for x in pts) + "</ul></div></li>"
+        for when, role, org, ctx, pts in T["lead_tl"])
+    bring = "".join(f'<div><dt>{e(a)}</dt><dd>{e(b)}</dd></div>' for a, b in T["lead_bring"])
+    cnav = "".join(f'<a href="{h}">{e(t)}</a>' for h, t in T["conseil_nav"])
+    eb = f'<p class="eyebrow">{e(T["eyebrow_conseil"])}</p>'
+    tblocks = "".join(
+        f'<div class="tblock"><h3>{e(h)}</h3><ul>' + "".join(f"<li>{e(x)}</li>" for x in xs) + "</ul></div>"
+        for h, xs in T["trading_blocks"])
     body = f"""
 <section class="hero"><div class="wrap">
   <div>
@@ -202,7 +216,7 @@ def page(T):
     <p class="hero-p">{e(T["hero_p"])}</p>
     <div class="hero-actions">
       <a class="btn" href="{C.CALENDLY}" rel="noopener">{e(T["cta_book"])}</a>
-      <a class="btn btn--ghost" href="#expertises">{e(T["hero_cta2"])}</a>
+      <a class="btn btn--ghost" href="#leadership">{e(T["hero_cta2"])}</a>
     </div>
     <p class="sig"><img src="/assets/img/mohamed-ben-lakhoua.webp" alt="" width="52" height="52">{e(T["sig"])}</p>
   </div>
@@ -211,25 +225,46 @@ def page(T):
     <dl class="proof-figures">{figures}</dl>
     <p class="panel-envs">{e(T["hero_panel_envs"])}</p>
   </div>
+</div>
+<div class="wrap doors-wrap"><nav class="doors" aria-label="{e(T["doors_label"])}">{doors}</nav></div>
+</section>
+
+<section class="section" id="leadership" aria-labelledby="leadership-h"><div class="wrap">
+  <div class="section-head"><h2 id="leadership-h">{e(T["lead_h2"])}</h2><p class="lead">{e(T["lead_p"])}</p></div>
+  <div class="roles"><h3>{e(T["lead_roles_h3"])}</h3><ul>{roles}</ul></div>
+  <div class="lead-grid">
+    <div><h3 class="sub-h">{e(T["lead_tl_h3"])}</h3><ol class="tl">{tl}</ol></div>
+    <div class="bring"><h3 class="sub-h">{e(T["lead_bring_h3"])}</h3><dl>{bring}</dl>
+      <p class="lead-note">{e(T["lead_note"])}</p>
+      <div class="hero-actions"><a class="btn" href="{C.CALENDLY}" rel="noopener">{e(T["lead_cta"])}</a>
+      <a class="btn btn--ghost" href="{C.LINKEDIN}" rel="noopener">{e(T["lead_cta2"])}</a></div>
+    </div>
+  </div>
 </div></section>
 
-<section class="section" id="expertises" aria-labelledby="expertises-h"><div class="wrap">
-  <div class="section-head"><h2 id="expertises-h">{e(T["exp_h2"])}</h2><p class="lead">{e(T["exp_p"])}</p></div>
-  <div class="domains">{domains}</div>
+<section class="chapter" id="conseil" aria-labelledby="conseil-h"><div class="wrap">
+  <h2 id="conseil-h">{e(T["conseil_h2"])}</h2>
+  <p class="lead">{e(T["conseil_p"])}</p>
+  <nav class="chapter-nav" aria-label="{e(T["conseil_h2"])}">{cnav}</nav>
 </div></section>
 
-<section class="section" id="pourquoi" aria-labelledby="pourquoi-h"><div class="wrap">
-  <div class="section-head"><h2 id="pourquoi-h">{e(T["why_h2"])}</h2><p class="lead">{e(T["why_p"])}</p></div>
+<section class="section" id="contexte" aria-labelledby="contexte-h"><div class="wrap">
+  <div class="section-head">{eb}<h2 id="contexte-h">{e(T["why_h2"])}</h2><p class="lead">{e(T["why_p"])}</p></div>
   <dl class="whys">{why}</dl>
 </div></section>
 
+<section class="section" id="architecture" aria-labelledby="architecture-h"><div class="wrap">
+  <div class="section-head">{eb}<h2 id="architecture-h">{e(T["exp_h2"])}</h2><p class="lead">{e(T["exp_p"])}</p></div>
+  <div class="domains">{domains}</div>
+</div></section>
+
 <section class="section" id="methode" aria-labelledby="methode-h"><div class="wrap">
-  <div class="section-head"><h2 id="methode-h">{e(T["method_h2"])}</h2><p class="lead">{e(T["method_p"])}</p></div>
+  <div class="section-head">{eb}<h2 id="methode-h">{e(T["method_h2"])}</h2><p class="lead">{e(T["method_p"])}</p></div>
   <ol class="steps">{steps}</ol>
 </div></section>
 
 <section class="section section--tint" id="niveaux" aria-labelledby="niveaux-h"><div class="wrap">
-  <div class="section-head"><h2 id="niveaux-h">{e(T["lvl_h2"])}</h2><p class="lead">{e(T["lvl_p"])}</p></div>
+  <div class="section-head">{eb}<h2 id="niveaux-h">{e(T["lvl_h2"])}</h2><p class="lead">{e(T["lvl_p"])}</p></div>
   <div class="lvl">
     <div class="panel" data-panel data-per-month="{e(T["per_month"])}" data-per-year="{e(T["per_year"])}">
       <h3 class="panel-title">{e(T["panel_title"])}</h3>
@@ -253,7 +288,7 @@ def page(T):
 </div></section>
 
 <section class="section section--ink" id="ia" aria-labelledby="ia-h"><div class="wrap">
-  <div class="section-head"><h2 id="ia-h">{e(T["ai_h2"])}</h2><p class="lead">{e(T["ai_p"])}</p></div>
+  <div class="section-head"><p class="eyebrow eyebrow--ink">{e(T["eyebrow_conseil"])}</p><h2 id="ia-h">{e(T["ai_h2"])}</h2><p class="lead">{e(T["ai_p"])}</p></div>
   <ol class="steps steps--ink">{ai_steps}</ol>
   <div class="guard"><h3>{e(T["ai_guard_h3"])}</h3><ul>{ai_guard}</ul></div>
 </div></section>
@@ -267,6 +302,13 @@ def page(T):
   </div>
 </div></section>
 {videos}
+<section class="section section--tint" id="trading" aria-labelledby="trading-h"><div class="wrap">
+  <div class="section-head"><h2 id="trading-h">{e(T["trading_h2"])}</h2><p class="lead">{e(T["trading_p"])}</p></div>
+  <div class="tblocks">{tblocks}</div>
+  <p class="trading-reuse">{e(T["trading_reuse"])} <a href="{e(T["AC"])}" rel="noopener">{e(T["trading_link"])}</a></p>
+  <p class="disclaimer">{e(T["trading_disclaimer"])}</p>
+</div></section>
+
 <section class="section" id="references" aria-labelledby="references-h"><div class="wrap">
   <div class="section-head"><h2 id="references-h">{e(T["refs_h2"])}</h2><p class="lead">{e(T["refs_intro"])}</p></div>
   <div class="refs-cols">
@@ -298,7 +340,8 @@ def course_page(T, KT):
         refs = "".join(f"<li>{e(x)}</li>" for x in c["refs"])
         items += f"""
 <article class="course" id="{c["id"]}" aria-labelledby="{c["id"]}-h">
-  <header class="course-head"><h2 id="{c["id"]}-h">{e(c["title"])}</h2><p>{e(c["tagline"])}</p></header>
+  <header class="course-head"><h2 id="{c["id"]}-h">{e(c["title"])}</h2><p>{e(c["tagline"])}</p>
+    <div class="course-why"><span>{e(L["why"])}</span>{e(c["why"])}</div></header>
   <div class="course-body">
     <dl class="course-meta">
       <div><dt>{e(L["duration"])}</dt><dd class="course-dur">{e(c["duration"])}</dd></div>
@@ -320,7 +363,7 @@ def course_page(T, KT):
     paths = "".join(
         f'<div class="track"><h3>{e(name)}</h3><p>{e(desc)}</p><ol>'
         + "".join(f'<li><a href="#{i}">{e(titles[i])}</a></li>' for i in ids) + "</ol></div>"
-        for name, _, desc, ids in KT["paths"])
+        for name, desc, ids in KT["paths"])
     body = f"""
 <section class="page-hero"><div class="wrap">
   <p class="crumb"><a href="{T["path"]}">{e(KT["back"])}</a></p>
