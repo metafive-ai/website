@@ -116,15 +116,6 @@ p { margin: 0; }
   .seg label { font-size: .9rem; }
 }
 
-/* single orchestrated page-load moment: the proof figures light up one by one */
-@media (prefers-reduced-motion: no-preference) and (min-width: 961px) {
-  .js .proof-figures > div { animation: link .5s ease both; }
-  .js .proof-figures > div:nth-child(1) { animation-delay: .15s; }
-  .js .proof-figures > div:nth-child(2) { animation-delay: .3s; }
-  .js .proof-figures > div:nth-child(3) { animation-delay: .45s; }
-  .js .proof-figures > div:nth-child(4) { animation-delay: .6s; }
-  @keyframes link { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-}
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .chain .v.flash { animation: none; } }
 
 /* ---------- sections ---------- */
