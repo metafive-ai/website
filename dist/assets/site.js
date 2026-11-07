@@ -13,6 +13,11 @@
     if (lang === "fr") s = s.replace(".", ",");
     return s + (lang === "fr" ? " %" : "%");
   }
+  // a required level is rounded up, never down
+  function pctUp(x) {
+    var digits = x >= 99.995 ? 4 : 3, f = Math.pow(10, digits);
+    return pct(Math.ceil(x * f - 1e-9) / f);
+  }
   function dur(min) {
     if (min < 60) {
       var m = min < 10 ? min.toFixed(1) : Math.round(min).toString();
@@ -27,14 +32,14 @@
     var budgetSla = 1 - sla / 100;          // e.g. 0.001
     var slo = 100 - budgetSla * 50;          // keep 50 % margin of the error budget
     var budgetSlo = 1 - slo / 100;
-    var ola = Math.pow(slo / 100, 1 / 3) * 100;  // 3 teams in series
+    var link = pctUp(Math.pow(slo / 100, 1 / 4) * 100);  // 3 OLA + 1 UC in series
     return {
       sla: pct(sla),
       slo: pct(slo),
       budget: dur(budgetSlo * MONTH_MIN),
       budgetYear: dur(budgetSlo * YEAR_MIN),
-      ola: pct(ola),
-      sloRaw: slo
+      budgetSla: dur(budgetSla * MONTH_MIN),
+      link: link
     };
   }
 
@@ -42,15 +47,22 @@
   if (panel) {
     var t = panel.dataset;
     function set(k, html) {
-      var el = panel.querySelector('[data-v="' + k + '"]');
-      if (el && el.innerHTML !== html) { el.innerHTML = html; el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash"); }
+      var els = document.querySelectorAll('[data-v="' + k + '"]');
+      for (var i = 0; i < els.length; i++) {
+        var el = els[i];
+        if (el.innerHTML !== html) { el.innerHTML = html; el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash"); }
+      }
     }
     function render(sla) {
       var r = compute(sla);
       set("sla", r.sla);
       set("slo", r.slo);
       set("budget", r.budget + "<small>" + t.perMonth + "</small>");
-      set("ola", r.ola);
+      set("budget_plain", r.budget);
+      set("budget_sla", r.budgetSla);
+      set("ola", r.link);
+      set("uc", r.link);
+      set("link", r.link);
       set("sli", "≥ " + r.slo);
       set("cap", "&gt; " + r.slo);
       var y = panel.querySelector("[data-budget-year]");
