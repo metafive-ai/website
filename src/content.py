@@ -230,7 +230,7 @@ FR = dict(
     about_links=[('LinkedIn', 'https://www.linkedin.com/in/mohamed-ben-lakhoua/'),
      ('Référentiel SLM open source', 'https://github.com/metafive-ai/service-level-management'),
      ('GitHub', 'https://github.com/mlakhoua-rgb'),
-     ('agent-constitution', 'https://github.com/mlakhoua-rgb/agent-constitution')],
+     ('agent-constitution', 'https://github.com/metafive-ai/agent-constitution')],
     contact_h2='Parlons de votre plateforme',
     contact_p=('Un premier échange de 30 minutes pour comprendre votre contexte : architecture, enjeux de conformité, '
      'engagements, échéances.'),
@@ -386,7 +386,7 @@ FR = dict(
     trading_disclaimer=("Projet de recherche et d'ingénierie personnel. Ce site ne fournit aucun conseil en investissement, aucun "
      'signal et aucune gestion pour compte de tiers. Le trading de produits à effet de levier comporte un risque '
      'élevé de perte en capital.'),
-    AC='https://github.com/mlakhoua-rgb/agent-constitution',
+    AC='https://github.com/metafive-ai/agent-constitution',
 )
 
 EN = dict(
@@ -591,7 +591,7 @@ EN = dict(
     about_links=[('LinkedIn', 'https://www.linkedin.com/in/mohamed-ben-lakhoua/'),
      ('Open-source SLM reference', 'https://github.com/metafive-ai/service-level-management'),
      ('GitHub', 'https://github.com/mlakhoua-rgb'),
-     ('agent-constitution', 'https://github.com/mlakhoua-rgb/agent-constitution')],
+     ('agent-constitution', 'https://github.com/metafive-ai/agent-constitution')],
     contact_h2="Let's talk about your platform",
     contact_p=('A first 30-minute conversation to understand your context: architecture, compliance stakes, commitments, '
      'deadlines.'),
@@ -738,5 +738,5 @@ EN = dict(
     trading_link='The agent-constitution governance framework (open source)',
     trading_disclaimer=('Personal research and engineering project. This site provides no investment advice, no signals and no '
      'third-party asset management. Trading leveraged products carries a high risk of capital loss.'),
-    AC='https://github.com/mlakhoua-rgb/agent-constitution',
+    AC='https://github.com/metafive-ai/agent-constitution',
 )
