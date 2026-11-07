@@ -346,7 +346,7 @@ FR = dict(
      ("L'IA mise au travail",
       'Des agents IA gouvernés par une charte, des preuves et des contrôles, éprouvés dans mon propre '
       'laboratoire.')],
-    lead_note='Lettres de recommandation disponibles sur demande, dont celle du ministre de la Fonction publique du Qatar.',
+    lead_note="Lettres de recommandation et témoignages de remerciement de ministres et d'institutions publiques, en Europe et au Moyen-Orient, disponibles sur demande.",
     lead_cta='Échanger sur un poste de direction',
     lead_cta2='Profil LinkedIn',
     conseil_h2='Conseil',
@@ -702,7 +702,7 @@ EN = dict(
      ('Compliance as an advantage',
       'NATO, European institutions, banking: audits passed with no critical findings, year after year.'),
      ('AI put to work', 'AI agents governed by a charter, evidence and controls, proven in my own lab.')],
-    lead_note="Letters of recommendation available on request, including one from Qatar's Minister of Civil Service.",
+    lead_note="Letters of recommendation and thanks from ministers and public institutions in Europe and the Middle East, available on request.",
     lead_cta='Talk about a leadership role',
     lead_cta2='LinkedIn profile',
     conseil_h2='Consulting',
