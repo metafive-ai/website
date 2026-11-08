@@ -284,8 +284,10 @@ def page(T):
                   f'<div class="videos">{items}</div><p class="video-consent">{e(T["video_consent"])}</p></div></section>')
 
     doors = "".join(
-        f'<a class="door" href="{h}"><span class="door-k">{e(k)}</span><span class="door-t">{e(t)}</span></a>'
-        for h, k, t in T["doors"])
+        f'<a class="door" href="{h}"><span class="door-n">0{i}</span><span class="door-k">{e(k)}</span><span class="door-t">{e(t)}</span></a>'
+        for i, (h, k, t) in enumerate(T["doors"], start=1))
+    kick = lambda i, label: f'<p class="kicker kicker--accent">0{i} · {e(label)}</p>'
+
     roles = "".join(f"<li>{e(x)}</li>" for x in T["lead_roles"])
     tl = "".join(
         f'<li class="tl-item"><span class="tl-when">{e(when)}</span><div class="tl-body"><h4>{e(role)}</h4>'
@@ -298,27 +300,31 @@ def page(T):
         f'<div class="tblock"><h3>{e(h)}</h3><ul>' + "".join(f"<li>{e(x)}</li>" for x in xs) + "</ul></div>"
         for h, xs in T["trading_blocks"])
     body = f"""
-<section class="hero"><div class="wrap">
-  <div>
+<section class="hero"><div class="wrap hero-grid">
+  <div class="hero-text">
+    <p class="kicker kicker--ink">{e(T["hero_eyebrow"])}</p>
     <h1>{e(T["hero_h1"])}</h1>
     <p class="hero-p">{e(T["hero_p"])}</p>
     <div class="hero-actions">
-      <a class="btn" href="{C.CALENDLY}" rel="noopener">{e(T["cta_book"])}</a>
-      <a class="btn btn--ghost" href="#leadership">{e(T["hero_cta2"])}</a>
+      <a class="btn btn--accent" href="{C.CALENDLY}" rel="noopener">{e(T["cta_book"])}</a>
+      <a class="btn btn--line" href="#leadership">{e(T["hero_cta2"])}</a>
     </div>
-    <p class="sig"><img src="/assets/img/mohamed-ben-lakhoua.webp" alt="" width="52" height="52">{e(T["sig"])}</p>
   </div>
-  <div class="panel panel--proof">
-    <h2 class="panel-title">{e(T["hero_panel_title"])}</h2>
-    <dl class="proof-figures">{figures}</dl>
-    <p class="panel-envs">{e(T["hero_panel_envs"])}</p>
-  </div>
+  <figure class="hero-photo">
+    <picture><source srcset="/assets/img/mohamed-ben-lakhoua.webp" type="image/webp"><img src="/assets/img/mohamed-ben-lakhoua.jpg" alt="Mohamed Ben Lakhoua" width="640" height="640"></picture>
+    <figcaption><strong>Mohamed Ben Lakhoua</strong><span>{e(T["hero_caption"])}</span></figcaption>
+  </figure>
 </div>
-<div class="wrap doors-wrap"><nav class="doors" aria-label="{e(T["doors_label"])}">{doors}</nav></div>
+<div class="hero-figs"><dl class="wrap figs">{figures}</dl></div>
 </section>
 
+<section class="ways" aria-labelledby="ways-h"><div class="wrap">
+  <h2 id="ways-h" class="kicker">{e(T["doors_label"])}</h2>
+  <nav class="doors" aria-label="{e(T["doors_label"])}">{doors}</nav>
+</div></section>
+
 <section class="section" id="leadership" aria-labelledby="leadership-h"><div class="wrap">
-  <div class="section-head"><h2 id="leadership-h">{e(T["lead_h2"])}</h2><p class="lead">{e(T["lead_p"])}</p></div>
+  <div class="section-head">{kick(1, T["doors"][0][1])}<h2 id="leadership-h">{e(T["lead_h2"])}</h2><p class="lead">{e(T["lead_p"])}</p></div>
   <div class="roles"><h3>{e(T["lead_roles_h3"])}</h3><ul>{roles}</ul></div>
   <div class="lead-grid">
     <div><h3 class="sub-h">{e(T["lead_tl_h3"])}</h3><ol class="tl">{tl}</ol></div>
@@ -331,6 +337,7 @@ def page(T):
 </div></section>
 
 <section class="chapter" id="conseil" aria-labelledby="conseil-h"><div class="wrap">
+  {kick(2, T["doors"][1][1])}
   <h2 id="conseil-h">{e(T["conseil_h2"])}</h2>
   <p class="lead">{e(T["conseil_p"])}</p>
   <nav class="chapter-nav" aria-label="{e(T["conseil_h2"])}">{cnav}</nav>
@@ -382,7 +389,7 @@ def page(T):
 </div></section>
 
 <section class="section" id="formation" aria-labelledby="formation-h"><div class="wrap">
-  <div class="section-head"><h2 id="formation-h">{e(T["train_h2"])}</h2><p class="lead">{e(T["train_intro"])}</p></div>
+  <div class="section-head">{kick(3, T["doors"][2][1])}<h2 id="formation-h">{e(T["train_h2"])}</h2><p class="lead">{e(T["train_intro"])}</p></div>
   <div class="train">
     <div><ul class="modules">{modules}</ul>
     <p class="train-cta"><a class="btn" href="{KT["path"]}#entreprise">{e(T["train_cta"])}</a></p>
@@ -392,8 +399,8 @@ def page(T):
   </div>
 </div></section>
 {videos}
-<section class="section section--tint" id="trading" aria-labelledby="trading-h"><div class="wrap">
-  <div class="section-head"><h2 id="trading-h">{e(T["trading_h2"])}</h2><p class="lead">{e(T["trading_p"])}</p></div>
+<section class="section section--ink section--lab" id="trading" aria-labelledby="trading-h"><div class="wrap">
+  <div class="section-head"><p class="kicker kicker--ink">04 · {e(T["lab_label"])}</p><h2 id="trading-h">{e(T["trading_h2"])}</h2><p class="lead">{e(T["trading_p"])}</p></div>
   <div class="tblocks">{tblocks}</div>
   <div class="tres"><h3>{e(T["trading_res_h3"])}</h3><p>{e(T["trading_res_p"])}</p>
     <dl class="fmt tres-k">{"".join(f'<div><dt>{e(a)}</dt><dd>{e(b)}</dd></div>' for a, b in T["trading_res"])}</dl>

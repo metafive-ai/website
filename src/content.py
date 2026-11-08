@@ -32,6 +32,9 @@ FR = dict(
      ('#apropos', 'À propos')],
     train_cta='Voir le catalogue détaillé',
     cta_book='Prendre rendez-vous',
+    hero_eyebrow='Architecte Infrastructure & Cloud · Paris – La Défense',
+    hero_caption='Fondateur, Metafive.ai',
+    lab_label='Laboratoire',
     hero_h1='Diriger, concevoir et fiabiliser des plateformes critiques.',
     hero_p=('Trente ans de leadership technologique en Tunisie, au Qatar, aux Émirats arabes unis, en Allemagne et en '
      'France. Je travaille de quatre façons : à la direction technique, en conseil, en formation, et dans mon '
@@ -423,6 +426,9 @@ EN = dict(
      ('#apropos', 'About')],
     train_cta='See the detailed catalogue',
     cta_book='Book a call',
+    hero_eyebrow='Infrastructure & Cloud Architect · Paris – La Défense',
+    hero_caption='Founder, Metafive.ai',
+    lab_label='Lab',
     hero_h1='Leading, designing and hardening critical platforms.',
     hero_p=('Thirty years of technology leadership in Tunisia, Qatar, the United Arab Emirates, Germany and France. I '
      'work in four ways: in technology leadership roles, as a consultant, as a trainer, and in my lab applying '
