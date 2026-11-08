@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Build the static site into ../dist (FR at /, EN at /en/)."""
-import html, math, os, shutil, datetime
+import html, math, os, shutil, datetime, hashlib
 import content as C
 import courses as K
 import school as S
@@ -85,7 +85,7 @@ def shell(T, path, other_path, title, description, body, active=""):
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/site.css?v={asset_v("site.css")}">
 <script type="application/ld+json">{ld}</script>
 </head>
 <body>
@@ -113,12 +113,18 @@ def shell(T, path, other_path, title, description, body, active=""):
   <span>{e(T["copyright"])}</span>
   <details><summary>{e(T["legal_summary"])}</summary>{legal}</details>
 </div></footer>
-<script src="/assets/site.js" defer></script>
+<script src="/assets/site.js?v={asset_v("site.js")}" defer></script>
 </body>
 </html>
 """
 
 
+
+
+def asset_v(name):
+    """Content hash for cache busting: /assets/* is cached 7 days by browsers."""
+    p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", name)
+    return hashlib.sha256(open(p, "rb").read()).hexdigest()[:10]
 
 def _fmt(x, lang, d=0):
     t = f"{x:,.{d}f}"
@@ -135,16 +141,16 @@ def chart_replay(T):
     sy = lambda v: t + (H - t - b) * (1 - v / top)
     g = []
     for v in range(0, top + 1, 50):
-        g.append(f'<line class="ch-grid" x1="{l}" x2="{W-r}" y1="{sy(v):.1f}" y2="{sy(v):.1f}"/>'
-                 f'<text class="ch-ax" x="{l-8}" y="{sy(v)+4:.1f}" text-anchor="end">{v}</text>')
+        g.append(f'<line class="ch-grid" stroke="#D5DCE1" x1="{l}" x2="{W-r}" y1="{sy(v):.1f}" y2="{sy(v):.1f}"/>'
+                 f'<text class="ch-ax" font-size="14" fill="#5B6B78" x="{l-8}" y="{sy(v)+4:.1f}" text-anchor="end">{v}</text>')
     for i, (y, v) in enumerate(ys):
         x = l + i * sx + sx * 0.2
         w = sx * 0.6
         lab = str(y) + ("*" if y == 2026 else "")
-        g.append(f'<rect class="ch-bar" x="{x:.1f}" y="{sy(v):.1f}" width="{w:.1f}" height="{sy(0)-sy(v):.1f}" rx="3"/>'
-                 f'<text class="ch-val" x="{x+w/2:.1f}" y="{sy(v)-7:.1f}" text-anchor="middle">+{v} R</text>'
-                 f'<text class="ch-ax" x="{x+w/2:.1f}" y="{H-b+20}" text-anchor="middle">{lab}</text>')
-    g.append(f'<text class="ch-ax" x="{l}" y="14">R</text>')
+        g.append(f'<rect class="ch-bar" fill="#0E7C66" x="{x:.1f}" y="{sy(v):.1f}" width="{w:.1f}" height="{sy(0)-sy(v):.1f}" rx="3"/>'
+                 f'<text class="ch-val" font-size="14" font-weight="600" fill="#14212B" x="{x+w/2:.1f}" y="{sy(v)-7:.1f}" text-anchor="middle">+{v} R</text>'
+                 f'<text class="ch-ax" font-size="14" fill="#5B6B78" x="{x+w/2:.1f}" y="{H-b+20}" text-anchor="middle">{lab}</text>')
+    g.append(f'<text class="ch-ax" font-size="14" fill="#5B6B78" x="{l}" y="14">R</text>')
     return (f'<svg class="chart" viewBox="0 0 {W} {H}" role="img" aria-label="{e(T["chart_replay_aria"])}">'
             + "".join(g) + "</svg>")
 
@@ -165,23 +171,23 @@ def chart_demo(T):
     g = []
     for v in range(lo, hi + 1, 2):
         cls = "ch-zero" if v == 0 else "ch-grid"
-        g.append(f'<line class="{cls}" x1="{l}" x2="{W-r}" y1="{sy(v):.1f}" y2="{sy(v):.1f}"/>'
-                 f'<text class="ch-ax" x="{l-8}" y="{sy(v)+4:.1f}" text-anchor="end">{v:+d}</text>'.replace("+0<", "0<"))
+        g.append(f'<line class="{cls}" stroke="#D5DCE1" x1="{l}" x2="{W-r}" y1="{sy(v):.1f}" y2="{sy(v):.1f}"/>'
+                 f'<text class="ch-ax" font-size="14" fill="#5B6B78" x="{l-8}" y="{sy(v)+4:.1f}" text-anchor="end">{v:+d}</text>'.replace("+0<", "0<"))
     path = " ".join(f'{"M" if i == 0 else "L"}{sx(i):.1f},{sy(v):.1f}' for i, (_, v, _) in enumerate(pts))
-    g.append(f'<path class="ch-line" d="{path}"/>')
+    g.append(f'<path class="ch-line" fill="none" stroke="#0E7C66" stroke-width="2.5" d="{path}"/>')
     seen = set()
     for i, (when, v, rr) in enumerate(pts[1:], start=1):
         cls = "ch-dot ch-dot--neg" if rr < 0 else "ch-dot"
-        g.append(f'<circle class="{cls}" cx="{sx(i):.1f}" cy="{sy(v):.1f}" r="4.5"><title>{_fmt(rr, lang, 2)} R</title></circle>')
+        g.append(f'<circle class="{cls}" fill="{"#B45309" if rr < 0 else "#0E7C66"}" cx="{sx(i):.1f}" cy="{sy(v):.1f}" r="4.5"><title>{_fmt(rr, lang, 2)} R</title></circle>')
         day = when[:10]
         if day not in seen:
             seen.add(day)
             m, dd = int(day[5:7]), int(day[8:10])
             lab = f"{dd} {mo[m-1]}" if lang == "fr" else f"{mo[m-1]} {dd}"
-            g.append(f'<text class="ch-ax" x="{sx(i):.1f}" y="{H-b+20}" text-anchor="middle">{lab}</text>')
+            g.append(f'<text class="ch-ax" font-size="14" fill="#5B6B78" x="{sx(i):.1f}" y="{H-b+20}" text-anchor="middle">{lab}</text>')
     last = pts[-1][1]
-    g.append(f'<text class="ch-val" x="{sx(n)-6:.1f}" y="{sy(last)-10:.1f}" text-anchor="end">{"+" if last >= 0 else ""}{_fmt(last, lang, 1)} R</text>')
-    g.append(f'<text class="ch-ax" x="{l}" y="14">R</text>')
+    g.append(f'<text class="ch-val" font-size="14" font-weight="600" fill="#14212B" x="{sx(n)-6:.1f}" y="{sy(last)-10:.1f}" text-anchor="end">{"+" if last >= 0 else ""}{_fmt(last, lang, 1)} R</text>')
+    g.append(f'<text class="ch-ax" font-size="14" fill="#5B6B78" x="{l}" y="14">R</text>')
     return (f'<svg class="chart" viewBox="0 0 {W} {H}" role="img" aria-label="{e(T["chart_demo_aria"])}">'
             + "".join(g) + "</svg>")
 
