@@ -482,3 +482,18 @@ p { margin: 0; }
 .tres-note { margin-top: 1.25rem; font-size: .88rem; color: var(--steel); max-width: var(--measure); }
 @media (max-width: 1080px) { .tres-k { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 520px) { .tres-k { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.tcharts { margin-top: 1.75rem; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+.tchart { margin: 0; padding: 1rem 1.1rem .9rem; border: 1px solid var(--line); border-radius: .7rem; background: var(--paper); }
+.tchart h4 { font-size: 1rem; }
+.tchart figcaption { margin-top: .4rem; font-size: .85rem; color: var(--steel); line-height: 1.45; }
+.chart { display: block; width: 100%; height: auto; margin-top: .5rem; }
+.ch-grid { stroke: var(--line); stroke-width: 1; }
+.ch-zero { stroke: var(--steel); stroke-width: 1; }
+.ch-ax { fill: var(--steel); font-size: 14px; }
+.ch-val { fill: var(--ink); font-size: 14px; font-weight: 600; }
+.ch-bar { fill: var(--signal); }
+.ch-line { fill: none; stroke: var(--signal); stroke-width: 2.5; stroke-linejoin: round; }
+.ch-dot { fill: var(--signal); stroke: var(--white); stroke-width: 2; }
+.ch-dot--neg { fill: var(--burn); }
+@media (max-width: 860px) { .tcharts { grid-template-columns: 1fr; } }

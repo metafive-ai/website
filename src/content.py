@@ -390,6 +390,13 @@ FR = dict(
     trading_res_note=("R = risque engagé par trade. Résultats simulés (replay), pas de trading réel ; coûts de swap non inclus. "
      "Les années 2025-2026 ont servi à la sélection : ce n'est pas un test hors échantillon. Les performances passées "
      'ou simulées ne préjugent pas des résultats futurs.'),
+    chart_replay_h='Replay 2022 → 2026 : R par année',
+    chart_replay_aria="Diagramme en barres du résultat en R par année du book IDXAU-LOW-DD-FINAL en replay : 2022 +33 R, 2023 +88 R, 2024 +94 R, 2025 +122 R, 2026 +76 R jusqu'au 14 octobre.",
+    chart_replay_cap="Replay contrôlé, janvier 2022 → 14 octobre 2026 (* année partielle). R par année = nombre de trades × R moyen, arrondi.",
+    chart_demo_h='Compte de démonstration : R cumulé',
+    chart_demo_aria="Courbe du R cumulé des trades clôturés du book IDXAU-LOW-DD-FINAL sur compte de démonstration depuis le 2 novembre 2026.",
+    chart_demo_cap="Trades clôturés sur compte de démonstration (pas d'argent réel) depuis le 2 novembre 2026 : {n} trades, {w} gagnants, {r} R. Échantillon encore trop court pour conclure ; mis à jour chaque semaine.",
+    months=['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'],
     trading_link='Le cadre de gouvernance agent-constitution (open source)',
     trading_disclaimer=("Projet de recherche et d'ingénierie personnel. Ce site ne fournit aucun conseil en investissement, aucun "
      'signal et aucune gestion pour compte de tiers. Le trading de produits à effet de levier comporte un risque '
@@ -751,6 +758,13 @@ EN = dict(
     trading_res_note=('R = risk taken per trade. Simulated results (replay), not live trading; swap costs not included. '
      'The years 2025-2026 were used for selection: this is not an out-of-sample test. Past or simulated performance '
      'does not predict future results.'),
+    chart_replay_h='Replay 2022 → 2026: R per year',
+    chart_replay_aria='Bar chart of the R result per year of the IDXAU-LOW-DD-FINAL book in replay: 2022 +33 R, 2023 +88 R, 2024 +94 R, 2025 +122 R, 2026 +76 R to 14 October.',
+    chart_replay_cap='Enforced replay, January 2022 → 14 October 2026 (* partial year). R per year = number of trades × average R, rounded.',
+    chart_demo_h='Demo account: cumulative R',
+    chart_demo_aria='Line chart of the cumulative R of the closed trades of the IDXAU-LOW-DD-FINAL book on a demo account since 2 November 2026.',
+    chart_demo_cap='Closed trades on a demo account (no real money) since 2 November 2026: {n} trades, {w} winners, {r} R. Still too short a sample to conclude; updated weekly.',
+    months=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     trading_link='The agent-constitution governance framework (open source)',
     trading_disclaimer=('Personal research and engineering project. This site provides no investment advice, no signals and no '
      'third-party asset management. Trading leveraged products carries a high risk of capital loss.'),

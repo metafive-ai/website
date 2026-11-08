@@ -4,6 +4,7 @@ import html, math, os, shutil, datetime
 import content as C
 import courses as K
 import school as S
+import trading_data as TD
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DIST = os.path.join(os.path.dirname(HERE), "dist")
@@ -117,6 +118,85 @@ def shell(T, path, other_path, title, description, body, active=""):
 </html>
 """
 
+
+
+def _fmt(x, lang, d=0):
+    t = f"{x:,.{d}f}"
+    return t.replace(",", "\u202f").replace(".", ",") if lang == "fr" else t
+
+
+def chart_replay(T):
+    """Bars: R per year of the replayed book (R only)."""
+    lang = T["lang"]
+    W, H, l, r, t, b = 520, 250, 44, 12, 28, 34
+    ys = [(y, round(n * a)) for y, n, a in TD.REPLAY_YEARS]
+    top = 150
+    sx = (W - l - r) / len(ys)
+    sy = lambda v: t + (H - t - b) * (1 - v / top)
+    g = []
+    for v in range(0, top + 1, 50):
+        g.append(f'<line class="ch-grid" x1="{l}" x2="{W-r}" y1="{sy(v):.1f}" y2="{sy(v):.1f}"/>'
+                 f'<text class="ch-ax" x="{l-8}" y="{sy(v)+4:.1f}" text-anchor="end">{v}</text>')
+    for i, (y, v) in enumerate(ys):
+        x = l + i * sx + sx * 0.2
+        w = sx * 0.6
+        lab = str(y) + ("*" if y == 2026 else "")
+        g.append(f'<rect class="ch-bar" x="{x:.1f}" y="{sy(v):.1f}" width="{w:.1f}" height="{sy(0)-sy(v):.1f}" rx="3"/>'
+                 f'<text class="ch-val" x="{x+w/2:.1f}" y="{sy(v)-7:.1f}" text-anchor="middle">+{v} R</text>'
+                 f'<text class="ch-ax" x="{x+w/2:.1f}" y="{H-b+20}" text-anchor="middle">{lab}</text>')
+    g.append(f'<text class="ch-ax" x="{l}" y="14">R</text>')
+    return (f'<svg class="chart" viewBox="0 0 {W} {H}" role="img" aria-label="{e(T["chart_replay_aria"])}">'
+            + "".join(g) + "</svg>")
+
+
+def chart_demo(T):
+    """Cumulative R of the closed demo trades, trade by trade."""
+    lang = T["lang"]
+    W, H, l, r, t, b = 520, 250, 44, 16, 28, 34
+    pts, cum = [(None, 0.0, None)], 0.0
+    for when, sym, d, rr in TD.DEMO_TRADES:
+        cum += rr
+        pts.append((when, cum, rr))
+    lo, hi = -2, 10
+    n = len(pts) - 1
+    sx = lambda i: l + (W - l - r) * i / n
+    sy = lambda v: t + (H - t - b) * (1 - (v - lo) / (hi - lo))
+    mo = T["months"]
+    g = []
+    for v in range(lo, hi + 1, 2):
+        cls = "ch-zero" if v == 0 else "ch-grid"
+        g.append(f'<line class="{cls}" x1="{l}" x2="{W-r}" y1="{sy(v):.1f}" y2="{sy(v):.1f}"/>'
+                 f'<text class="ch-ax" x="{l-8}" y="{sy(v)+4:.1f}" text-anchor="end">{v:+d}</text>'.replace("+0<", "0<"))
+    path = " ".join(f'{"M" if i == 0 else "L"}{sx(i):.1f},{sy(v):.1f}' for i, (_, v, _) in enumerate(pts))
+    g.append(f'<path class="ch-line" d="{path}"/>')
+    seen = set()
+    for i, (when, v, rr) in enumerate(pts[1:], start=1):
+        cls = "ch-dot ch-dot--neg" if rr < 0 else "ch-dot"
+        g.append(f'<circle class="{cls}" cx="{sx(i):.1f}" cy="{sy(v):.1f}" r="4.5"><title>{_fmt(rr, lang, 2)} R</title></circle>')
+        day = when[:10]
+        if day not in seen:
+            seen.add(day)
+            m, dd = int(day[5:7]), int(day[8:10])
+            lab = f"{dd} {mo[m-1]}" if lang == "fr" else f"{mo[m-1]} {dd}"
+            g.append(f'<text class="ch-ax" x="{sx(i):.1f}" y="{H-b+20}" text-anchor="middle">{lab}</text>')
+    last = pts[-1][1]
+    g.append(f'<text class="ch-val" x="{sx(n)-6:.1f}" y="{sy(last)-10:.1f}" text-anchor="end">{"+" if last >= 0 else ""}{_fmt(last, lang, 1)} R</text>')
+    g.append(f'<text class="ch-ax" x="{l}" y="14">R</text>')
+    return (f'<svg class="chart" viewBox="0 0 {W} {H}" role="img" aria-label="{e(T["chart_demo_aria"])}">'
+            + "".join(g) + "</svg>")
+
+
+def trading_charts(T):
+    rtot = sum(round(n * a) for _, n, a in TD.REPLAY_YEARS)
+    wins = sum(1 for *_, rr in TD.DEMO_TRADES if rr > 0)
+    dsum = sum(rr for *_, rr in TD.DEMO_TRADES)
+    demo_cap = T["chart_demo_cap"].format(n=len(TD.DEMO_TRADES), w=wins, r=("+" if dsum >= 0 else "") + _fmt(dsum, T["lang"], 1))
+    return f"""<div class="tcharts">
+    <figure class="tchart"><h4>{e(T["chart_replay_h"])}</h4>{chart_replay(T)}
+      <figcaption>{e(T["chart_replay_cap"])}</figcaption></figure>
+    <figure class="tchart"><h4>{e(T["chart_demo_h"])}</h4>{chart_demo(T)}
+      <figcaption>{e(demo_cap)}</figcaption></figure>
+  </div>"""
 
 def page(T):
     lang = T["lang"]
@@ -311,6 +391,7 @@ def page(T):
   <div class="tblocks">{tblocks}</div>
   <div class="tres"><h3>{e(T["trading_res_h3"])}</h3><p>{e(T["trading_res_p"])}</p>
     <dl class="fmt tres-k">{"".join(f'<div><dt>{e(a)}</dt><dd>{e(b)}</dd></div>' for a, b in T["trading_res"])}</dl>
+    {trading_charts(T)}
     <p class="tres-note">{e(T["trading_res_note"])}</p></div>
   <p class="trading-reuse">{e(T["trading_reuse"])} <a href="{e(T["AC"])}" rel="noopener">{e(T["trading_link"])}</a></p>
   <p class="disclaimer">{e(T["trading_disclaimer"])}</p>
