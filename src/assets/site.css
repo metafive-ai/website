@@ -535,7 +535,7 @@ body { background: #FFFFFF; }
 .hero { background: var(--night); color: #FFFFFF; padding: clamp(3.5rem, 7vw, 5.5rem) 0 0; }
 .hero .wrap.hero-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .8fr); gap: clamp(2rem, 5vw, 4rem); align-items: center; }
 .hero h1 { color: #FFFFFF; font-size: clamp(2.5rem, 1.5rem + 3.4vw, 4rem); line-height: 1.05; letter-spacing: -0.025em; max-width: 15ch; }
-.hero-p { color: var(--night-soft); font-size: 1.18rem; }
+.hero .hero-p { color: var(--night-soft); font-size: 1.18rem; }
 .hero-photo { margin: 0; justify-self: end; width: 100%; max-width: 26rem; }
 .hero-photo img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 14px; background: var(--night-line); }
 .hero-photo figcaption { margin-top: .8rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; font-size: .9rem; color: #8FA3B1; }
