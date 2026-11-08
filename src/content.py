@@ -382,6 +382,14 @@ FR = dict(
     trading_reuse=("Ce que ce laboratoire apporte à mes missions : une pratique concrète de l'IA agentique en production, de "
      'la gouvernance des agents et de la rigueur statistique, réutilisée directement dans le conseil et les '
      'formations.'),
+    trading_res_h3='Résultats en replay : le book IDXAU-LOW-DD-FINAL',
+    trading_res_p=("Six indices et l'or, janvier 2022 → octobre 2026, rejoués par le moteur réel avec ses règles d'admission. "
+     'Book retenu le 3 novembre 2026 ; en validation sur compte de démonstration depuis novembre 2026.'),
+    trading_res=[('Trades', '2 437'), ('Résultat moyen', '+0,169 R par trade'), ('Total', '+412 R'),
+     ('Drawdown maximal', '18,2 R'), ('Ratio de Sharpe', '2,84'), ('Années', '5 sur 5 positives (2022 → 2026)')],
+    trading_res_note=("R = risque engagé par trade. Résultats simulés (replay), pas de trading réel ; coûts de swap non inclus. "
+     "Les années 2025-2026 ont servi à la sélection : ce n'est pas un test hors échantillon. Les performances passées "
+     'ou simulées ne préjugent pas des résultats futurs.'),
     trading_link='Le cadre de gouvernance agent-constitution (open source)',
     trading_disclaimer=("Projet de recherche et d'ingénierie personnel. Ce site ne fournit aucun conseil en investissement, aucun "
      'signal et aucune gestion pour compte de tiers. Le trading de produits à effet de levier comporte un risque '
@@ -735,6 +743,14 @@ EN = dict(
        'Continuous integration gates before any deployment'])],
     trading_reuse=('What this lab brings to my engagements: hands-on practice of agentic AI in production, agent governance '
      'and statistical rigour, reused directly in consulting and training.'),
+    trading_res_h3='Replay results: the IDXAU-LOW-DD-FINAL book',
+    trading_res_p=('Six indices and gold, January 2022 → October 2026, replayed by the real engine with its admission rules. '
+     'Book selected on 3 November 2026; in validation on a demo account since November 2026.'),
+    trading_res=[('Trades', '2,437'), ('Average result', '+0.169 R per trade'), ('Total', '+412 R'),
+     ('Maximum drawdown', '18.2 R'), ('Sharpe ratio', '2.84'), ('Years', '5 of 5 positive (2022 → 2026)')],
+    trading_res_note=('R = risk taken per trade. Simulated results (replay), not live trading; swap costs not included. '
+     'The years 2025-2026 were used for selection: this is not an out-of-sample test. Past or simulated performance '
+     'does not predict future results.'),
     trading_link='The agent-constitution governance framework (open source)',
     trading_disclaimer=('Personal research and engineering project. This site provides no investment advice, no signals and no '
      'third-party asset management. Trading leveraged products carries a high risk of capital loss.'),

@@ -309,6 +309,9 @@ def page(T):
 <section class="section section--tint" id="trading" aria-labelledby="trading-h"><div class="wrap">
   <div class="section-head"><h2 id="trading-h">{e(T["trading_h2"])}</h2><p class="lead">{e(T["trading_p"])}</p></div>
   <div class="tblocks">{tblocks}</div>
+  <div class="tres"><h3>{e(T["trading_res_h3"])}</h3><p>{e(T["trading_res_p"])}</p>
+    <dl class="fmt tres-k">{"".join(f'<div><dt>{e(a)}</dt><dd>{e(b)}</dd></div>' for a, b in T["trading_res"])}</dl>
+    <p class="tres-note">{e(T["trading_res_note"])}</p></div>
   <p class="trading-reuse">{e(T["trading_reuse"])} <a href="{e(T["AC"])}" rel="noopener">{e(T["trading_link"])}</a></p>
   <p class="disclaimer">{e(T["trading_disclaimer"])}</p>
 </div></section>
