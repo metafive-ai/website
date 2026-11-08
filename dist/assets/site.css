@@ -453,3 +453,24 @@ p { margin: 0; }
 .tracks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (max-width: 860px) { .tracks { grid-template-columns: 1fr; } }
 .hero .wrap.doors-wrap { display: block; }
+
+/* Courses for schools */
+.doors--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 760px) { .doors--2 { grid-template-columns: 1fr; } }
+.assess h3 { font-size: var(--step-1); }
+.sgroups { margin-top: 1.25rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+.sgroup { background: var(--white); border: 1px solid var(--line); border-top: 3px solid var(--ink); border-radius: .9rem; padding: 1.4rem 1.5rem; }
+.sgroup:nth-child(2) { border-top-color: var(--signal); }
+.sgroup:nth-child(3) { border-top-color: var(--burn); }
+.sgroup:nth-child(4) { border-top-color: var(--signal-soft); }
+.sgroup h4 { font-size: var(--step-1); }
+.sgroup p { margin-top: .35rem; color: var(--steel); font-size: .92rem; }
+.sgroup ul { margin: .9rem 0 0; padding-left: 1.1rem; }
+.sgroup li { margin-top: .35rem; line-height: 1.45; }
+@media (max-width: 1080px) { .sgroups { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .sgroups { grid-template-columns: 1fr; } }
+.school-note { margin-top: 1.75rem; max-width: var(--measure); font-size: .92rem; color: var(--steel); }
+.school-cta { margin-top: 2rem; padding: 1.5rem; border-left: 3px solid var(--signal); background: var(--white); border-radius: .6rem; max-width: var(--measure); }
+.school-cta p { margin-top: .5rem; }
+.school-teaser { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+.school-teaser p { margin-top: .5rem; color: var(--ink-2); }

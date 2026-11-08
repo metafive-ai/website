@@ -3,6 +3,7 @@
 import html, math, os, shutil, datetime
 import content as C
 import courses as K
+import school as S
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DIST = os.path.join(os.path.dirname(HERE), "dist")
@@ -167,6 +168,7 @@ def page(T):
         f'<ul class="tags">' + "".join(f"<li>{e(t)}</li>" for t in tags) + "</ul></article>"
         for a, b, items, tags in T["domains"])
     KT = K.FR if lang == "fr" else K.EN
+    ST = S.FR if lang == "fr" else S.EN
     modules = "".join(
         f'<li><a href="{KT["path"]}#{c["id"]}"><span class="m-h"><strong>{e(c["title"])}</strong><em>{e(c["duration"])}</em></span>'
         f'<span>{e(c["tagline"])}</span></a></li>' for c in KT["courses"])
@@ -297,7 +299,9 @@ def page(T):
   <div class="section-head"><h2 id="formation-h">{e(T["train_h2"])}</h2><p class="lead">{e(T["train_intro"])}</p></div>
   <div class="train">
     <div><ul class="modules">{modules}</ul>
-    <p class="train-cta"><a class="btn" href="{KT["path"]}">{e(T["train_cta"])}</a></p></div>
+    <p class="train-cta"><a class="btn" href="{KT["path"]}#entreprise">{e(T["train_cta"])}</a></p>
+    <div class="school-teaser"><h3>{e(ST["home_h3"])}</h3><p>{e(ST["home_p"])}</p>
+    <p><a class="btn btn--ghost" href="{KT["path"]}#cours">{e(ST["home_cta"])}</a></p></div></div>
     <aside class="proof"><h3>{e(T["train_proof_h3"])}</h3><ul>{proof}</ul></aside>
   </div>
 </div></section>
@@ -364,13 +368,26 @@ def course_page(T, KT):
         f'<div class="track"><h3>{e(name)}</h3><p>{e(desc)}</p><ol>'
         + "".join(f'<li><a href="#{i}">{e(titles[i])}</a></li>' for i in ids) + "</ol></div>"
         for name, desc, ids in KT["paths"])
+    ST = S.FR if KT is K.FR else S.EN
+    sdoors = "".join(
+        f'<a class="door" href="{h}"><span class="door-k">{e(k)}</span><span class="door-t">{e(t)}</span></a>'
+        for h, k, t in ST["doors"])
+    how = "".join(f'<div><dt>{e(a)}</dt><dd>{e(b)}</dd></div>' for a, b in ST["how"])
+    groups = "".join(
+        f'<article class="sgroup"><h4>{e(n)}</h4><p>{e(d)}</p><ul>' + "".join(f"<li>{e(x)}</li>" for x in xs) + "</ul></article>"
+        for n, d, xs in ST["groups"])
     body = f"""
 <section class="page-hero"><div class="wrap">
   <p class="crumb"><a href="{T["path"]}">{e(KT["back"])}</a></p>
-  <h1>{e(KT["h1"])}</h1>
-  <p class="hero-p">{e(KT["intro"])}</p>
+  <h1>{e(ST["page_h1"])}</h1>
+  <p class="hero-p">{e(ST["page_intro"])}</p>
+  <nav class="doors doors--2" aria-label="{e(ST["page_h1"])}">{sdoors}</nav>
+</div></section>
+
+<section class="section section--tint" id="entreprise" aria-labelledby="entreprise-h"><div class="wrap">
+  <div class="section-head"><h2 id="entreprise-h">{e(ST["ent_h2"])}</h2><p class="lead">{e(KT["intro"])}</p></div>
   <dl class="fmt">{fmt}</dl>
-  <div class="assess"><h2>{e(KT["assess_h3"])}</h2><p>{e(KT["assess"])}</p><p class="muted">{e(KT["note"])}</p></div>
+  <div class="assess"><h3>{e(KT["assess_h3"])}</h3><p>{e(KT["assess"])}</p><p class="muted">{e(KT["note"])}</p></div>
 </div></section>
 
 <section class="section" id="catalogue" aria-labelledby="catalogue-h"><div class="wrap">
@@ -383,6 +400,17 @@ def course_page(T, KT):
 <section class="section" id="parcours" aria-labelledby="parcours-h"><div class="wrap">
   <div class="section-head"><h2 id="parcours-h">{e(KT["paths_h2"])}</h2><p class="lead">{e(KT["paths_intro"])}</p></div>
   <div class="tracks">{paths}</div>
+</div></section>
+
+<section class="section section--tint" id="cours" aria-labelledby="cours-h"><div class="wrap">
+  <div class="section-head"><h2 id="cours-h">{e(ST["h2"])}</h2><p class="lead">{e(ST["intro"])}</p></div>
+  <h3 class="h3-gap">{e(ST["how_h3"])}</h3>
+  <dl class="fmt">{how}</dl>
+  <h3 class="h3-gap">{e(ST["groups_h3"])}</h3>
+  <div class="sgroups">{groups}</div>
+  <p class="muted school-note">{e(ST["note"])}</p>
+  <div class="school-cta"><h3>{e(ST["cta_h3"])}</h3><p>{e(ST["cta_p"])}</p>
+    <p><a class="btn" href="mailto:{C.EMAIL}">{e(ST["cta_mail"])} {C.EMAIL}</a></p></div>
 </div></section>
 """
     nav_active = KT["path"]
