@@ -6,11 +6,24 @@ Site vitrine statique, une page, en français (`/`) et en anglais (`/en/`). Héb
 
 | Chemin | Rôle |
 |---|---|
-| `src/content.py` | **Tout le texte du site** (FR et EN), liens, liste des vidéos YouTube |
-| `src/build.py` | Génère `dist/` (pages FR et EN, sitemap, `llms.txt`, données structurées schema.org) |
+| `src/content.py` | **Tout le texte du site** (FR et EN), liens, liste des vidéos YouTube, textes de la page du calculateur |
+| `src/courses.py` | Catalogue des formations (FR et EN) ; `PAGES` en fin de fichier donne l'adresse et le titre de recherche de chaque cours |
+| `src/school.py` | Cours en écoles et universités |
+| `src/build.py` | Génère `dist/` (24 pages, sitemap, `llms.txt`, données structurées schema.org) |
 | `src/assets/` | CSS, JS (calculateur de la chaîne SLA → SLO → OLA, lecteur YouTube), polices IBM Plex Sans auto-hébergées, images |
 | `src/static/` | Fichiers copiés tels quels : favicon, robots.txt, `_headers` (en-têtes de sécurité Cloudflare), 404 |
 | `dist/` | Site généré, publié par Cloudflare Pages |
+
+## Pages
+
+| FR | EN | Contenu |
+|---|---|---|
+| `/` | `/en/` | Accueil : leadership, conseil, formation, lab, références |
+| `/niveaux-de-service/` | `/en/service-levels/` | Calculateur SLA, SLO, OLA et budget d'erreur, avec les cinq formules |
+| `/formations/` | `/en/training/` | Format, catalogue (une carte par cours), parcours, cours en écoles |
+| `/formations/<cours>/` | `/en/training/<course>/` | Une page par cours (9 par langue) |
+
+Ajouter un cours : l'ajouter à `courses` en FR et en EN dans `src/courses.py` avec le même `id`, puis à `PAGES`. La page, la carte du catalogue, le sitemap, `llms.txt` et les données structurées suivent. Une adresse publiée ne se renomme pas sans redirection (`src/static/_redirects`). Les anciens liens `/formations/#<id>` restent valables : ils mènent à la carte du cours.
 
 ## Modifier le site
 

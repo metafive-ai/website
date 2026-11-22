@@ -3,7 +3,9 @@
 Durations are proposals to validate with Mohamed. No prices on the site.
 Do not claim Qualiopi or official exam accreditation.
 Regulatory facts checked 2026-11-07: AI Act as amended by the Digital Omnibus on AI (Reg. (EU) 2026/1744);
-CRA reporting from 11 Sept 2026; NIS2 French transposition (loi Résilience) still pending at the Assemblée nationale."""
+CRA reporting from 11 Sept 2026; NIS2 French transposition (loi Résilience) still pending at the Assemblée nationale.
+
+Each course has its own page: see PAGES at the end of this file for the public URLs and the search titles."""
 
 FR = dict(
     path="/formations/", other_path="/en/training/",
@@ -24,9 +26,15 @@ FR = dict(
     index_h2="Le catalogue",
     labels=dict(duration="Durée", audience="Public", prereq="Prérequis", refs="Référentiels",
                 why="Pourquoi en 2026", objectives="Objectifs", program="Programme", labs="Travaux pratiques",
-                deliverables="Ce que vous emportez", top="Retour au catalogue"),
+                deliverables="Ce que vous emportez", top="Retour au catalogue",
+                see="Voir le programme", kicker="Formation intra-entreprise", crumbs="Fil d'Ariane",
+                format="Format et évaluation", others="Autres formations du catalogue",
+                calc_h="Calculer la chaîne des engagements",
+                calc_p="Choisissez une disponibilité : le calculateur en déduit le SLO, le budget d'erreur, et ce que chaque équipe et chaque fournisseur doit tenir.",
+                calc_cta="Ouvrir le calculateur"),
     paths_h2="Parcours",
     paths_intro="Les cours se combinent selon votre enjeu principal.",
+    paths_one="Ce cours se combine avec d'autres selon votre enjeu principal.",
     back="Retour à l'accueil",
     courses=[
         dict(id="ia-agentique", title="IA agentique : gouvernance, sécurité et garde-fous",
@@ -254,9 +262,15 @@ EN = dict(
     index_h2="The catalogue",
     labels=dict(duration="Duration", audience="Audience", prereq="Prerequisites", refs="Frameworks",
                 why="Why in 2026", objectives="Objectives", program="Programme", labs="Hands-on work",
-                deliverables="What you take away", top="Back to the catalogue"),
+                deliverables="What you take away", top="Back to the catalogue",
+                see="See the programme", kicker="In-house training", crumbs="Breadcrumb",
+                format="Format and assessment", others="Other courses in the catalogue",
+                calc_h="Calculate the commitment chain",
+                calc_p="Pick an availability: the calculator derives the SLO, the error budget, and what each team and each supplier must deliver.",
+                calc_cta="Open the calculator"),
     paths_h2="Tracks",
     paths_intro="Courses combine according to your main challenge.",
+    paths_one="This course combines with others according to your main challenge.",
     back="Back to home",
     courses=[
         dict(id="ia-agentique", title="Agentic AI: governance, security and guardrails",
@@ -464,3 +478,39 @@ EN = dict(
         ("Reliable operations", "6 days for operations steered by measured objectives.", ["sre-slo", "service-level-management", "slo-ia"]),
     ],
 )
+
+
+# One page per course, in each language.
+# id -> (slug, search title). The slug is a public URL: never rename one without adding a redirect
+# in src/static/_redirects. The search title feeds <title> only ({d} = the course duration, so the
+# two cannot drift); the page heading stays the course title. Keep it under 46 characters before
+# the duration so " | Metafive.ai" still fits in 60.
+PAGES = {
+    "fr": {
+        "ia-agentique": ("ia-agentique", "Formation IA agentique : gouvernance et sécurité ({d})"),
+        "ai-act": ("ai-act-iso-42001", "Formation AI Act et ISO/IEC 42001 ({d})"),
+        "resilience-cyber": ("dora-nis2-cra", "Formation DORA, NIS2 et CRA ({d})"),
+        "slo-ia": ("slo-ia", "Formation SLO pour l'IA : LLM et agents ({d})"),
+        "finops-ia": ("finops-cloud-ia", "Formation FinOps du cloud et de l'IA ({d})"),
+        "cloud-souverain": ("cloud-souverain", "Formation architecture cloud souveraine et hybride ({d})"),
+        "platform-engineering": ("platform-engineering", "Formation Platform Engineering ({d})"),
+        "sre-slo": ("sre-slo", "Formation SRE et SLO ({d})"),
+        "service-level-management": ("service-level-management", "Formation Service Level Management : SLA, OLA, UC ({d})"),
+    },
+    "en": {
+        "ia-agentique": ("agentic-ai", "Agentic AI training: governance and security ({d})"),
+        "ai-act": ("ai-act-iso-42001", "AI Act and ISO/IEC 42001 training ({d})"),
+        "resilience-cyber": ("dora-nis2-cra", "DORA, NIS2 and CRA training ({d})"),
+        "slo-ia": ("slos-for-ai", "SLOs for AI training: LLMs and agents ({d})"),
+        "finops-ia": ("cloud-ai-finops", "Cloud and AI FinOps training ({d})"),
+        "cloud-souverain": ("sovereign-cloud", "Sovereign and hybrid cloud architecture training ({d})"),
+        "platform-engineering": ("platform-engineering", "Platform Engineering training ({d})"),
+        "sre-slo": ("sre-slos", "SRE and SLO training ({d})"),
+        "service-level-management": ("service-level-management", "Service Level Management training: SLA, OLA, UC ({d})"),
+    },
+}
+
+for _lang, _KT in (("fr", FR), ("en", EN)):
+    for _c in _KT["courses"]:
+        _c["slug"], _c["seo"] = PAGES[_lang][_c["id"]]
+        _c["path"] = _KT["path"] + _c["slug"] + "/"

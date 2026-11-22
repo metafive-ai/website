@@ -95,10 +95,14 @@ def breadcrumb_ld(pairs):
 
 
 def course_ld(c, lang, url):
-    return {"@type": "Course", "@id": url, "name": c["title"], "description": c["tagline"], "inLanguage": lang,
-            "url": url, "timeRequired": iso_days(c["duration"]),
+    """Course data for a course page. Every value is on the page: no price, no rating, no accreditation."""
+    return {"@type": "Course", "@id": url + "#course", "name": c["title"], "description": c["tagline"],
+            "inLanguage": lang, "url": url, "timeRequired": iso_days(c["duration"]),
             "audience": {"@type": "Audience", "audienceType": c["audience"]},
-            "provider": {"@id": ORG_ID}}
+            "coursePrerequisites": c["prereq"], "teaches": c["objectives"],
+            "provider": {"@id": ORG_ID},
+            "hasCourseInstance": {"@type": "CourseInstance", "courseMode": ["Onsite", "Online"],
+                                  "instructor": {"@id": PERSON_ID}}}
 
 
 def shell(T, path, other_path, title, description, body, active="", ld_extra=()):
@@ -254,7 +258,18 @@ def trading_charts(T):
       <figcaption>{e(demo_cap)}</figcaption></figure>
   </div>"""
 
-def page(T):
+CALC_COURSES = ("sre-slo", "service-level-management", "slo-ia")  # courses that use the calculator
+
+
+def module_li(c):
+    """One course as a row: title, duration, tagline, linked to its own page."""
+    return (f'<li><a href="{c["path"]}"><span class="m-h"><strong>{e(c["title"])}</strong><em>{e(c["duration"])}</em></span>'
+            f'<span>{e(c["tagline"])}</span></a></li>')
+
+
+def levels_parts(T, h="h3"):
+    """The commitment chain calculator, shared by the home page and its own page.
+    Returns (panel + architecture, formulas). h = heading level of the block titles."""
     lang = T["lang"]
     r = compute(float(DEFAULT_SLA), lang)
     values = {"sla": r["sla"], "slo": r["slo"],
@@ -286,9 +301,6 @@ def page(T):
         f'<div class="formula" id="f-{k}"><dt>{e(name)}</dt><dd><code>{e(f)}</code><p>{e(d)}</p>'
         f'<p class="ex"><span>{e(T["ex_label"])}</span>{fill(T["calc_ex"][k])}</p></dd></div>'
         for k, name, f, d in T["calc"])
-    ai_steps = "".join(f"<li><h3>{e(a)}</h3><p>{e(b)}</p></li>" for a, b in T["ai_steps"])
-    ai_guard = "".join(f"<li>{e(x)}</li>" for x in T["ai_guard"])
-
     seg = "".join(
         f'<input type="radio" name="sla" id="sla-{v.replace(".", "-")}" value="{v}"{" checked" if v == DEFAULT_SLA else ""}>'
         f'<label for="sla-{v.replace(".", "-")}">{sla_label(v, lang)}</label>' for v in SLA_CHOICES)
@@ -297,6 +309,34 @@ def page(T):
         extra = f' {e(T["so"])} <span data-budget-year>{e(r["budget_year"])} {e(T["per_year"])}</span>.' if k == "budget" else ""
         rows += (f'<li data-k="{k}"><span class="k">{e(name)}</span><span class="v" data-v="{k}">{values[k]}</span>'
                  f'<span class="d">{e(desc)}{extra}</span></li>')
+    lvl = f"""<div class="lvl">
+    <div class="panel" data-panel data-per-month="{e(T["per_month"])}" data-per-year="{e(T["per_year"])}">
+      <{h} class="panel-title">{e(T["panel_title"])}</{h}>
+      <fieldset><legend>{e(T["panel_pick"])}</legend><div class="seg">{seg}</div></fieldset>
+      <ol class="chain" aria-live="polite">{rows}</ol>
+      <p class="panel-note">{e(T["panel_note"])}</p>
+    </div>
+    <div class="lvl-arch">
+      <{h}>{e(T["arch_h3"])}</{h}><p class="lvl-sub">{e(T["arch_p"])}</p>
+      <div class="arch">
+        <div class="rail rail--up" aria-hidden="true"><span>{e(T["arch_up"])}</span></div>
+        <div class="layers">{arch}</div>
+        <div class="rail rail--down" aria-hidden="true"><span>{e(T["arch_down"])}</span></div>
+      </div>
+    </div>
+  </div>"""
+    formulas = f"""<div class="calc">
+    <div class="calc-head"><{h}>{e(T["calc_h3"])}</{h}><p>{e(T["calc_p"])} <strong class="lv" data-v="sla">{e(r["sla"])}</strong></p></div>
+    <dl class="formulas">{calc}</dl>
+  </div>"""
+    return lvl, formulas
+
+
+def page(T):
+    lang = T["lang"]
+    lvl, _ = levels_parts(T)
+    ai_steps = "".join(f"<li><h3>{e(a)}</h3><p>{e(b)}</p></li>" for a, b in T["ai_steps"])
+    ai_guard = "".join(f"<li>{e(x)}</li>" for x in T["ai_guard"])
     steps = "".join(f"<li><h3>{e(a)}</h3><p>{e(b)}</p></li>" for a, b in T["steps"])
     domains = "".join(
         f'<article class="domain"><h3>{e(a)}</h3><p class="domain-p">{e(b)}</p>'
@@ -305,9 +345,7 @@ def page(T):
         for a, b, items, tags in T["domains"])
     KT = K.FR if lang == "fr" else K.EN
     ST = S.FR if lang == "fr" else S.EN
-    modules = "".join(
-        f'<li><a href="{KT["path"]}#{c["id"]}"><span class="m-h"><strong>{e(c["title"])}</strong><em>{e(c["duration"])}</em></span>'
-        f'<span>{e(c["tagline"])}</span></a></li>' for c in KT["courses"])
+    modules = "".join(module_li(c) for c in KT["courses"])
     proof = "".join(f"<li>{e(x)}</li>" for x in T["train_proof"])
     figures = "".join(f'<div><dt>{e(a)}</dt><dd>{e(b)}</dd></div>' for a, b in T["figures"])
     envs = "".join(f"<li>{e(x)}</li>" for x in T["envs"])
@@ -410,26 +448,8 @@ def page(T):
 
 <section class="section section--tint" id="niveaux" aria-labelledby="niveaux-h"><div class="wrap">
   <div class="section-head">{eb}<h2 id="niveaux-h">{e(T["lvl_h2"])}</h2><p class="lead">{e(T["lvl_p"])}</p></div>
-  <div class="lvl">
-    <div class="panel" data-panel data-per-month="{e(T["per_month"])}" data-per-year="{e(T["per_year"])}">
-      <h3 class="panel-title">{e(T["panel_title"])}</h3>
-      <fieldset><legend>{e(T["panel_pick"])}</legend><div class="seg">{seg}</div></fieldset>
-      <ol class="chain" aria-live="polite">{rows}</ol>
-      <p class="panel-note">{e(T["panel_note"])}</p>
-    </div>
-    <div class="lvl-arch">
-      <h3>{e(T["arch_h3"])}</h3><p class="lvl-sub">{e(T["arch_p"])}</p>
-      <div class="arch">
-        <div class="rail rail--up" aria-hidden="true"><span>{e(T["arch_up"])}</span></div>
-        <div class="layers">{arch}</div>
-        <div class="rail rail--down" aria-hidden="true"><span>{e(T["arch_down"])}</span></div>
-      </div>
-    </div>
-  </div>
-  <div class="calc">
-    <div class="calc-head"><h3>{e(T["calc_h3"])}</h3><p>{e(T["calc_p"])} <strong class="lv" data-v="sla">{e(r["sla"])}</strong></p></div>
-    <dl class="formulas">{calc}</dl>
-  </div>
+  {lvl}
+  <p class="calc-more"><a class="btn btn--ghost" href="{T["levels_path"]}">{e(T["levels_link"])}</a><span>{e(T["levels_link_p"])}</span></p>
 </div></section>
 
 <section class="section section--ink" id="ia" aria-labelledby="ia-h"><div class="wrap">
@@ -477,43 +497,37 @@ def page(T):
     return shell(T, T["path"], T["other_path"], T["title"], T["description"], body)
 
 
-def course_page(T, KT):
+def course_title(c):
+    """<title> of a course page: the search title, with the brand when it still fits in 60 characters."""
+    t = c["seo"].format(d=c["duration"])
+    return t + " | Metafive.ai" if len(t) + 14 <= 60 else t
+
+
+def course_description(c, lang):
+    """Meta description: the tagline, plus the format when it fits in 155 characters."""
+    d = c["duration"]
+    tails = ((f" Formation intra-entreprise de {d}.", f" Formation de {d}.") if lang == "fr"
+             else (f" In-house training, {d}.", f" {d.split()[0]}-day course."))
+    for tail in tails:
+        if len(c["tagline"]) + len(tail) <= 155:
+            return c["tagline"] + tail
+    return c["tagline"]
+
+
+def catalogue_page(T, KT):
+    """Training index: format, one card per course (each links to its own page), tracks, courses for schools."""
     L = KT["labels"]
+    lang = T["lang"]
     fmt = "".join(f'<div><dt>{e(a)}</dt><dd>{e(b)}</dd></div>' for a, b in KT["format"])
-    index = "".join(f'<li><a href="#{c["id"]}">{e(c["title"])}</a><span>{e(c["duration"])}</span></li>' for c in KT["courses"])
-    titles = {c["id"]: c["title"] for c in KT["courses"]}
-    items = ""
-    for c in KT["courses"]:
-        prog = "".join(
-            f'<div class="prog-part"><h4>{e(h)}</h4><ul>' + "".join(f"<li>{e(x)}</li>" for x in xs) + "</ul></div>"
-            for h, xs in c["program"])
-        ul = lambda xs: "<ul>" + "".join(f"<li>{e(x)}</li>" for x in xs) + "</ul>"
-        refs = "".join(f"<li>{e(x)}</li>" for x in c["refs"])
-        items += f"""
-<article class="course" id="{c["id"]}" aria-labelledby="{c["id"]}-h">
-  <header class="course-head"><h2 id="{c["id"]}-h">{e(c["title"])}</h2><p>{e(c["tagline"])}</p>
-    <div class="course-why"><span>{e(L["why"])}</span>{e(c["why"])}</div></header>
-  <div class="course-body">
-    <dl class="course-meta">
-      <div><dt>{e(L["duration"])}</dt><dd class="course-dur">{e(c["duration"])}</dd></div>
-      <div><dt>{e(L["audience"])}</dt><dd>{e(c["audience"])}</dd></div>
-      <div><dt>{e(L["prereq"])}</dt><dd>{e(c["prereq"])}</dd></div>
-      <div><dt>{e(L["refs"])}</dt><dd><ul class="tags">{refs}</ul></dd></div>
-    </dl>
-    <div class="course-main">
-      <h3>{e(L["objectives"])}</h3>{ul(c["objectives"])}
-      <h3>{e(L["program"])}</h3><div class="prog">{prog}</div>
-      <div class="course-two">
-        <div><h3>{e(L["labs"])}</h3>{ul(c["labs"])}</div>
-        <div><h3>{e(L["deliverables"])}</h3>{ul(c["deliverables"])}</div>
-      </div>
-      <p class="course-top"><a href="#catalogue">{e(L["top"])}</a></p>
-    </div>
-  </div>
-</article>"""
+    by_id = {c["id"]: c for c in KT["courses"]}
+    # each card keeps the id the course had on this page, so older links to /formations/#<id> still land on it
+    cards = "".join(
+        f'<li class="ccard" id="{c["id"]}"><p class="ccard-dur">{e(c["duration"])}</p>'
+        f'<h3><a href="{c["path"]}">{e(c["title"])}</a></h3><p class="ccard-tag">{e(c["tagline"])}</p>'
+        f'<span class="ccard-more" aria-hidden="true">{e(L["see"])} →</span></li>' for c in KT["courses"])
     paths = "".join(
         f'<div class="track"><h3>{e(name)}</h3><p>{e(desc)}</p><ol>'
-        + "".join(f'<li><a href="#{i}">{e(titles[i])}</a></li>' for i in ids) + "</ol></div>"
+        + "".join(f'<li><a href="{by_id[i]["path"]}">{e(by_id[i]["title"])}</a></li>' for i in ids) + "</ol></div>"
         for name, desc, ids in KT["paths"])
     ST = S.FR if KT is K.FR else S.EN
     sdoors = "".join(
@@ -544,17 +558,15 @@ def course_page(T, KT):
 
 <section class="section" id="catalogue" aria-labelledby="catalogue-h"><div class="wrap">
   <h2 id="catalogue-h">{e(KT["index_h2"])}</h2>
-  <ol class="cindex">{index}</ol>
+  <ol class="ccards">{cards}</ol>
 </div></section>
 
-<div class="wrap courses">{items}</div>
-
-<section class="section" id="parcours" aria-labelledby="parcours-h"><div class="wrap">
+<section class="section section--tint" id="parcours" aria-labelledby="parcours-h"><div class="wrap">
   <div class="section-head"><h2 id="parcours-h">{e(KT["paths_h2"])}</h2><p class="lead">{e(KT["paths_intro"])}</p></div>
   <div class="tracks">{paths}</div>
 </div></section>
 
-<section class="section section--tint" id="cours" aria-labelledby="cours-h"><div class="wrap">
+<section class="section" id="cours" aria-labelledby="cours-h"><div class="wrap">
   <div class="section-head"><h2 id="cours-h">{e(ST["h2"])}</h2><p class="lead">{e(ST["intro"])}</p></div>
   <h3 class="h3-gap">{e(ST["how_h3"])}</h3>
   <dl class="fmt">{how}</dl>
@@ -573,23 +585,145 @@ def course_page(T, KT):
     <p><a class="btn" href="mailto:{C.EMAIL}">{e(ST["cta_mail"])} {C.EMAIL}</a></p></div>
 </div></section>
 """
-    nav_active = KT["path"]
-    lang = T["lang"]
+    # summary page: the list points at the course pages, which carry the full Course data
     catalogue = {"@type": "ItemList", "name": KT["index_h2"], "numberOfItems": len(KT["courses"]),
                  "itemListElement": [
-                     {"@type": "ListItem", "position": i,
-                      "item": course_ld(c, lang, f'{C.SITE}{KT["path"]}#{c["id"]}')}
+                     {"@type": "ListItem", "position": i, "name": c["title"], "url": C.SITE + c["path"]}
                      for i, c in enumerate(KT["courses"], start=1)]}
     crumbs = breadcrumb_ld([(T["home_label"], T["path"]), (ST["page_h1"], KT["path"])])
-    return shell(T, KT["path"], KT["other_path"], KT["title"], KT["description"], body, active=nav_active,
+    return shell(T, KT["path"], KT["other_path"], KT["title"], KT["description"], body, active=KT["path"],
                  ld_extra=[catalogue, crumbs])
+
+
+def course_page(T, KT, c):
+    """One course on its own address: why, facts, objectives, programme, labs, deliverables, format, tracks."""
+    L = KT["labels"]
+    lang = T["lang"]
+    ST = S.FR if KT is K.FR else S.EN
+    OT = K.EN if KT is K.FR else K.FR
+    other = next(x for x in OT["courses"] if x["id"] == c["id"])
+    by_id = {x["id"]: x for x in KT["courses"]}
+    ul = lambda xs: "<ul>" + "".join(f"<li>{e(x)}</li>" for x in xs) + "</ul>"
+    prog = "".join(
+        f'<div class="prog-part"><h3>{e(h)}</h3>{ul(xs)}</div>' for h, xs in c["program"])
+    refs = "".join(f"<li>{e(x)}</li>" for x in c["refs"])
+    fmt = "".join(f'<div><dt>{e(a)}</dt><dd>{e(b)}</dd></div>' for a, b in KT["format"])
+    tracks = "".join(
+        f'<div class="track"><h3>{e(name)}</h3><p>{e(desc)}</p><ol>'
+        + "".join((f'<li><strong aria-current="page">{e(by_id[i]["title"])}</strong></li>' if i == c["id"]
+                   else f'<li><a href="{by_id[i]["path"]}">{e(by_id[i]["title"])}</a></li>') for i in ids)
+        + "</ol></div>"
+        for name, desc, ids in KT["paths"] if c["id"] in ids)
+    others = "".join(
+        f'<li><a href="{x["path"]}">{e(x["title"])}</a><span>{e(x["duration"])}</span></li>'
+        for x in KT["courses"] if x["id"] != c["id"])
+    tool = ""
+    if c["id"] in CALC_COURSES:
+        tool = (f'<aside class="tool-link"><h2>{e(L["calc_h"])}</h2><p>{e(L["calc_p"])}</p>'
+                f'<p><a class="btn btn--ghost" href="{T["levels_path"]}">{e(L["calc_cta"])}</a></p></aside>')
+    body = f"""
+<section class="page-hero page-hero--course"><div class="wrap">
+  <nav class="crumb" aria-label="{e(L["crumbs"])}"><a href="{T["path"]}">{e(T["home_label"])}</a><span aria-hidden="true">›</span><a href="{KT["path"]}#catalogue">{e(ST["page_h1"])}</a></nav>
+  <p class="kicker kicker--accent">{e(L["kicker"])} · {e(c["duration"])}</p>
+  <h1>{e(c["title"])}</h1>
+  <p class="hero-p">{e(c["tagline"])}</p>
+  <div class="hero-actions">
+    <a class="btn btn--accent" href="{C.CALENDLY}" rel="noopener">{e(T["cta_book"])}</a>
+    <a class="btn btn--ghost" href="mailto:{C.EMAIL}">{e(T["contact_email_label"])} · {C.EMAIL}</a>
+  </div>
+</div></section>
+
+<div class="wrap courses courses--page">
+<article class="course" aria-labelledby="why-h">
+  <header class="course-head"><h2 class="course-why-h" id="why-h">{e(L["why"])}</h2><p>{e(c["why"])}</p></header>
+  <div class="course-body">
+    <dl class="course-meta">
+      <div><dt>{e(L["duration"])}</dt><dd class="course-dur">{e(c["duration"])}</dd></div>
+      <div><dt>{e(L["audience"])}</dt><dd>{e(c["audience"])}</dd></div>
+      <div><dt>{e(L["prereq"])}</dt><dd>{e(c["prereq"])}</dd></div>
+      <div><dt>{e(L["refs"])}</dt><dd><ul class="tags">{refs}</ul></dd></div>
+    </dl>
+    <div class="course-main">
+      <h2>{e(L["objectives"])}</h2>{ul(c["objectives"])}
+      <h2>{e(L["program"])}</h2><div class="prog">{prog}</div>
+      <div class="course-two">
+        <div><h2>{e(L["labs"])}</h2>{ul(c["labs"])}</div>
+        <div><h2>{e(L["deliverables"])}</h2>{ul(c["deliverables"])}</div>
+      </div>
+    </div>
+  </div>
+</article>
+{tool}
+</div>
+
+<section class="section section--tint" id="format" aria-labelledby="format-h"><div class="wrap">
+  <h2 id="format-h">{e(L["format"])}</h2>
+  <dl class="fmt">{fmt}</dl>
+  <div class="assess"><p>{e(KT["assess"])}</p><p class="muted">{e(KT["note"])}</p></div>
+</div></section>
+
+<section class="section" id="parcours" aria-labelledby="parcours-h"><div class="wrap">
+  <div class="section-head"><h2 id="parcours-h">{e(KT["paths_h2"])}</h2><p class="lead">{e(KT["paths_one"])}</p></div>
+  <div class="tracks">{tracks}</div>
+</div></section>
+
+<section class="section section--tint" id="autres" aria-labelledby="autres-h"><div class="wrap">
+  <h2 id="autres-h">{e(L["others"])}</h2>
+  <ol class="cindex">{others}</ol>
+  <p class="course-top"><a href="{KT["path"]}#catalogue">{e(L["top"])}</a></p>
+</div></section>
+"""
+    url = C.SITE + c["path"]
+    crumbs = breadcrumb_ld([(T["home_label"], T["path"]), (ST["page_h1"], KT["path"]), (c["title"], c["path"])])
+    return shell(T, c["path"], other["path"], course_title(c), course_description(c, lang), body, active=KT["path"],
+                 ld_extra=[course_ld(c, lang, url), crumbs])
+
+
+def levels_page(T):
+    """The commitment chain calculator on its own address: panel, architecture, the five formulas."""
+    lang = T["lang"]
+    KT = K.FR if lang == "fr" else K.EN
+    lvl, formulas = levels_parts(T, "h2")
+    by_id = {c["id"]: c for c in KT["courses"]}
+    related = "".join(module_li(by_id[i]) for i in CALC_COURSES)
+    repo = next(t for t, u in T["about_links"] if u == C.GITHUB_SLM)
+    body = f"""
+<section class="page-hero"><div class="wrap">
+  <p class="crumb"><a href="{T["path"]}">{e(KT["back"])}</a></p>
+  <p class="kicker kicker--accent">{e(T["levels_kicker"])}</p>
+  <h1>{e(T["levels_h1"])}</h1>
+  <p class="hero-p">{e(T["levels_intro"])}</p>
+</div></section>
+
+<section class="section section--tint section--tool" id="calculateur"><div class="wrap">
+  {lvl}
+</div></section>
+
+<section class="section section--tool" id="formules"><div class="wrap">
+  {formulas}
+</div></section>
+
+<section class="section section--tint" id="formations" aria-labelledby="formations-h"><div class="wrap">
+  <div class="section-head"><h2 id="formations-h">{e(T["levels_more_h2"])}</h2><p class="lead">{e(T["levels_more_p"])}</p></div>
+  <ul class="modules modules--wide">{related}</ul>
+  <div class="links"><a href="{C.GITHUB_SLM}" rel="noopener">{e(repo)}</a><a href="{T["path"]}#methode">{e(T["levels_method"])}</a></div>
+</div></section>
+"""
+    url = C.SITE + T["levels_path"]
+    app = {"@type": "WebApplication", "@id": url + "#calculator", "name": T["levels_h1"], "url": url,
+           "description": T["levels_description"], "applicationCategory": "BusinessApplication",
+           "operatingSystem": "Any", "isAccessibleForFree": True, "inLanguage": lang,
+           "creator": {"@id": PERSON_ID}, "publisher": {"@id": ORG_ID}}
+    crumbs = breadcrumb_ld([(T["home_label"], T["path"]), (T["levels_h1"], T["levels_path"])])
+    return shell(T, T["levels_path"], T["levels_other_path"], T["levels_title"], T["levels_description"], body,
+                 ld_extra=[app, crumbs])
 
 
 def llms_txt():
     """Plain-language description of the site for AI assistants (llms.txt convention).
     Generated from the same data as the pages so it cannot drift. Facts only."""
     T, KT = C.EN, K.EN
-    courses = "\n".join(f'- {c["title"]} ({c["duration"]})' for c in KT["courses"])
+    courses = "\n".join(f'- [{c["title"]}]({C.SITE}{c["path"]}): {c["duration"]}. {c["tagline"]}' for c in KT["courses"])
     fmt = " ".join(f"{b}" for _, b in KT["format"])
     track = "\n".join(f"- {when}: {role}, {org}. {ctx}" for when, role, org, ctx, _ in T["lead_tl"])
     return f"""# Metafive.ai — Mohamed Ben Lakhoua
@@ -624,6 +758,10 @@ Format: {fmt} The courses do not prepare for official certification exams and ar
 - Home, English: {C.SITE}{C.EN["path"]}
 - Training and courses, French: {C.SITE}{K.FR["path"]}
 - Training and courses, English: {C.SITE}{K.EN["path"]}
+- SLA, SLO, OLA and error budget calculator, French: {C.SITE}{C.FR["levels_path"]}
+- SLA, SLO, OLA and error budget calculator, English: {C.SITE}{C.EN["levels_path"]}
+
+Each course has its own page in English (linked above) and in French, under {C.SITE}{K.FR["path"]}
 
 ## Open source
 - Service Level Management reference: {C.GITHUB_SLM}
@@ -636,23 +774,26 @@ def main():
         shutil.rmtree(DIST)
     shutil.copytree(os.path.join(HERE, "assets"), os.path.join(DIST, "assets"))
     shutil.copytree(os.path.join(HERE, "static"), DIST, dirs_exist_ok=True)
+    pages = []   # (path, html), in sitemap order
     for T in (C.FR, C.EN):
-        out = os.path.join(DIST, T["path"].strip("/"), "index.html")
-        os.makedirs(os.path.dirname(out), exist_ok=True)
-        open(out, "w", encoding="utf-8").write(page(T))
+        pages.append((T["path"], page(T)))
+    for T in (C.FR, C.EN):
+        pages.append((T["levels_path"], levels_page(T)))
     for T, KT in ((C.FR, K.FR), (C.EN, K.EN)):
-        out = os.path.join(DIST, KT["path"].strip("/"), "index.html")
+        pages.append((KT["path"], catalogue_page(T, KT)))
+        pages.extend((c["path"], course_page(T, KT, c)) for c in KT["courses"])
+    assert len({p for p, _ in pages}) == len(pages), "two pages share one address"
+    for path, html_ in pages:
+        out = os.path.join(DIST, path.strip("/"), "index.html")
         os.makedirs(os.path.dirname(out), exist_ok=True)
-        open(out, "w", encoding="utf-8").write(course_page(T, KT))
+        open(out, "w", encoding="utf-8").write(html_)
     today = datetime.date.today().isoformat()
     open(os.path.join(DIST, "sitemap.xml"), "w").write(
         '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-        f'<url><loc>{C.SITE}/</loc><lastmod>{today}</lastmod></url>\n'
-        f'<url><loc>{C.SITE}/en/</loc><lastmod>{today}</lastmod></url>\n'
-        f'<url><loc>{C.SITE}{K.FR["path"]}</loc><lastmod>{today}</lastmod></url>\n'
-        f'<url><loc>{C.SITE}{K.EN["path"]}</loc><lastmod>{today}</lastmod></url>\n</urlset>\n')
+        + "".join(f'<url><loc>{C.SITE}{path}</loc><lastmod>{today}</lastmod></url>\n' for path, _ in pages)
+        + '</urlset>\n')
     open(os.path.join(DIST, "llms.txt"), "w", encoding="utf-8").write(llms_txt())
-    print("built", DIST)
+    print("built", DIST, "-", len(pages), "pages")
 
 
 if __name__ == "__main__":

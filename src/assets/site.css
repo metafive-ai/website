@@ -615,3 +615,47 @@ body { background: #FFFFFF; }
 .contact { background: var(--night); }
 .foot { background: var(--night); color: #8FA3B1; border-top: 1px solid var(--night-line); }
 .foot a, .foot summary { color: var(--night-soft); }
+
+/* ===================== One page per course + calculator page (2026-11) ===================== */
+/* breadcrumb with several links */
+nav.crumb { display: flex; flex-wrap: wrap; gap: .5rem; align-items: baseline; }
+nav.crumb span { color: var(--steel); }
+.page-hero .kicker { margin-bottom: .9rem; }
+.page-hero--course h1 { font-size: clamp(2.1rem, 1.5rem + 2.4vw, 3.2rem); max-width: 24ch; text-wrap: balance; }
+
+/* catalogue: one card per course, the whole card is the link */
+.ccards { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+.ccard { position: relative; display: flex; flex-direction: column; gap: .6rem; background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 1.5rem; scroll-margin-top: 5rem; transition: border-color .15s, transform .15s; }
+.ccard:hover { border-color: var(--signal); transform: translateY(-2px); }
+.ccard:target { border-color: var(--signal); box-shadow: 0 0 0 3px rgba(11, 122, 99, .15); }
+.ccard-dur { font-family: var(--mono); font-size: .85rem; font-weight: 500; color: var(--signal); }
+.ccard h3 { font-size: var(--step-1); line-height: 1.25; }
+.ccard h3 a { color: var(--ink); text-decoration: none; }
+.ccard h3 a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.ccard:hover h3 a { color: var(--signal); }
+.ccard-tag { color: var(--body); font-size: .97rem; line-height: 1.5; }
+.ccard-more { margin-top: auto; padding-top: .5rem; font-size: .95rem; font-weight: 500; color: var(--signal); }
+@media (max-width: 1000px) { .ccards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .ccards { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .ccard { transition: none; } .ccard:hover { transform: none; } }
+
+/* course page: same card as before, headings one level up */
+.courses--page { padding-bottom: clamp(3rem, 6vw, 4.5rem); }
+.course-head .course-why-h { font-family: var(--mono); font-size: .8rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--mint); }
+.course-main h2 { font-size: var(--step-1); margin-top: 1.75rem; }
+.course-main > h2:first-child { margin-top: 0; }
+.prog-part h3 { font-size: .95rem; font-weight: 600; margin-top: 0; }
+.track strong { font-weight: 600; }
+.tool-link { background: var(--mist); border: 1px solid var(--line); border-left: 3px solid var(--signal); border-radius: .6rem; padding: 1.5rem 1.75rem; }
+.tool-link h2 { font-size: var(--step-1); }
+.tool-link p { margin-top: .5rem; max-width: var(--measure); color: var(--body); }
+.tool-link p + p { margin-top: 1rem; }
+
+/* calculator: link from the home page, and its own page */
+.calc-more { margin-top: 2.5rem; display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem; }
+.calc-more span { color: var(--steel); font-size: .95rem; }
+.section--tool .lvl, .section--tool .calc { margin-top: 0; }
+.panel h2.panel-title { font-size: 1.05rem; letter-spacing: -0.015em; }
+.lvl-arch h2 { font-size: var(--step-2); }
+.modules--wide { margin-top: 2.5rem; max-width: 60rem; }
+.courses--page .course-head p { margin-top: .5rem; font-size: 1.12rem; }

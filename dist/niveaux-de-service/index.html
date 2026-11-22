@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculateur SLA, SLO, OLA et budget d&#x27;erreur | Metafive.ai</title>
+<meta name="description" content="Choisissez une disponibilité : le calculateur en déduit le SLO, le budget d&#x27;erreur, l&#x27;OLA de chaque équipe et l&#x27;UC du fournisseur. Formules incluses.">
+<link rel="canonical" href="https://www.metafive.ai/niveaux-de-service/">
+<link rel="alternate" hreflang="fr" href="https://www.metafive.ai/niveaux-de-service/">
+<link rel="alternate" hreflang="en" href="https://www.metafive.ai/en/service-levels/">
+<link rel="alternate" hreflang="x-default" href="https://www.metafive.ai/niveaux-de-service/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Metafive.ai">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Calculateur SLA, SLO, OLA et budget d&#x27;erreur | Metafive.ai">
+<meta property="og:description" content="Choisissez une disponibilité : le calculateur en déduit le SLO, le budget d&#x27;erreur, l&#x27;OLA de chaque équipe et l&#x27;UC du fournisseur. Formules incluses.">
+<meta property="og:url" content="https://www.metafive.ai/niveaux-de-service/">
+<meta property="og:image" content="https://www.metafive.ai/assets/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#14212B">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css?v=5e100ff7a1">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://www.metafive.ai/#mohamed-ben-lakhoua","name":"Mohamed Ben Lakhoua","jobTitle":"Infrastructure & Cloud Architect","url":"https://www.metafive.ai/","image":"https://www.metafive.ai/assets/img/mohamed-ben-lakhoua.jpg","worksFor":{"@id":"https://www.metafive.ai/#org"},"knowsLanguage":["fr","en","ar"],"knowsAbout":["Cloud architecture","Service Level Management","Site Reliability Engineering","FinOps","Business continuity","Digital Operational Resilience Act (DORA)"],"sameAs":["https://www.linkedin.com/in/mohamed-ben-lakhoua/","https://github.com/mlakhoua-rgb"]},{"@type":"ProfessionalService","@id":"https://www.metafive.ai/#org","name":"Metafive.ai","url":"https://www.metafive.ai/","description":"Conseil et formation indépendants en architecture cloud et infrastructure, niveaux de service, résilience et conformité des plateformes critiques.","image":"https://www.metafive.ai/assets/img/og.jpg","email":"mo@metafive.ai","founder":{"@id":"https://www.metafive.ai/#mohamed-ben-lakhoua"},"address":{"@type":"PostalAddress","addressLocality":"Courbevoie","addressCountry":"FR"},"areaServed":"FR","availableLanguage":["fr","en","ar"],"sameAs":["https://github.com/metafive-ai"]},{"@type":"WebSite","@id":"https://www.metafive.ai/#website","url":"https://www.metafive.ai/","name":"Metafive.ai","inLanguage":["fr","en"],"publisher":{"@id":"https://www.metafive.ai/#org"}},{"@type":"WebApplication","@id":"https://www.metafive.ai/niveaux-de-service/#calculator","name":"Calculateur SLA, SLO, OLA et budget d'erreur","url":"https://www.metafive.ai/niveaux-de-service/","description":"Choisissez une disponibilité : le calculateur en déduit le SLO, le budget d'erreur, l'OLA de chaque équipe et l'UC du fournisseur. Formules incluses.","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"inLanguage":"fr","creator":{"@id":"https://www.metafive.ai/#mohamed-ben-lakhoua"},"publisher":{"@id":"https://www.metafive.ai/#org"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://www.metafive.ai/"},{"@type":"ListItem","position":2,"name":"Calculateur SLA, SLO, OLA et budget d'erreur","item":"https://www.metafive.ai/niveaux-de-service/"}]}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Aller au contenu</a>
+<header class="top"><div class="wrap">
+  <a class="brand" href="/"><span class="brand-mark" aria-hidden="true"></span>Metafive<span class="brand-tld">.ai</span></a>
+  <nav class="nav" aria-label="Sections"><a href="/#leadership">Leadership</a><a href="/#conseil">Conseil</a><a href="/formations/">Formations</a><a href="/#trading">Trading IA</a><a href="/#references">Références</a><a href="/#apropos">À propos</a></nav>
+  <a class="lang" href="/en/service-levels/" hreflang="en" lang="en" title="English">EN</a>
+  <a class="btn btn--small" href="https://calendly.com/metafive" rel="noopener">Prendre rendez-vous</a>
+</div></header>
+
+<main id="main">
+<section class="page-hero"><div class="wrap">
+  <p class="crumb"><a href="/">Retour à l&#x27;accueil</a></p>
+  <p class="kicker kicker--accent">Niveaux de service</p>
+  <h1>Calculateur SLA, SLO, OLA et budget d&#x27;erreur</h1>
+  <p class="hero-p">Un SLA n&#x27;est opposable que s&#x27;il repose sur des OLA et des UC tenables, eux-mêmes adossés à des mesures fiables. Choisissez la disponibilité promise au client : toute la chaîne se recalcule, du SLO interne à ce que chaque équipe et chaque fournisseur doit tenir.</p>
+</div></section>
+
+<section class="section section--tint section--tool" id="calculateur"><div class="wrap">
+  <div class="lvl">
+    <div class="panel" data-panel data-per-month="/ mois" data-per-year="par an">
+      <h2 class="panel-title">La chaîne d&#x27;engagement, calculée</h2>
+      <fieldset><legend>Disponibilité promise au client</legend><div class="seg"><input type="radio" name="sla" id="sla-99-5" value="99.5"><label for="sla-99-5">99,5 %</label><input type="radio" name="sla" id="sla-99-9" value="99.9" checked><label for="sla-99-9">99,9 %</label><input type="radio" name="sla" id="sla-99-95" value="99.95"><label for="sla-99-95">99,95 %</label><input type="radio" name="sla" id="sla-99-99" value="99.99"><label for="sla-99-99">99,99 %</label></div></fieldset>
+      <ol class="chain" aria-live="polite"><li data-k="sla"><span class="k">SLA</span><span class="v" data-v="sla">99,9 %</span><span class="d">L&#x27;engagement contractuel envers le client, avec crédits et pénalités.</span></li><li data-k="slo"><span class="k">SLO</span><span class="v" data-v="slo">99,95 %</span><span class="d">L&#x27;objectif interne, plus strict, qui garde une marge avant la pénalité.</span></li><li data-k="budget"><span class="k">Budget d&#x27;erreur</span><span class="v" data-v="budget">22 min<small>/ mois</small></span><span class="d">L&#x27;indisponibilité tolérée par mois au niveau du SLO. Soit <span data-budget-year>4 h 23 par an</span>.</span></li><li data-k="ola"><span class="k">OLA par équipe</span><span class="v" data-v="ola">99,988 %</span><span class="d">Ce que chacune des 3 équipes internes doit tenir pour que le SLO tienne.</span></li><li data-k="uc"><span class="k">UC par fournisseur</span><span class="v" data-v="uc">99,988 %</span><span class="d">Ce que le contrat de sous-traitance (cloud, télécom, éditeur) doit garantir : c&#x27;est le 4ᵉ maillon de la chaîne.</span></li><li data-k="sli"><span class="k">SLI</span><span class="v" data-v="sli">≥ 99,95 %</span><span class="d">La mesure qui fait foi : requêtes réussies / requêtes totales, sur 30 jours glissants.</span></li><li data-k="cap"><span class="k">Capacité mesurée</span><span class="v" data-v="cap">&gt; 99,95 %</span><span class="d">Ce que la plateforme tient aujourd&#x27;hui, mesuré avant de s&#x27;engager.</span></li></ol>
+      <p class="panel-note">Hypothèses d&#x27;illustration : SLO = SLA avec 50 % de marge sur le budget d&#x27;erreur ; 3 équipes internes et 1 fournisseur en série ; mois de 30 jours.</p>
+    </div>
+    <div class="lvl-arch">
+      <h2>L&#x27;architecture de la chaîne</h2><p class="lvl-sub">Les engagements se construisent de bas en haut ; les pénalités descendent de haut en bas.</p>
+      <div class="arch">
+        <div class="rail rail--up" aria-hidden="true"><span>Engagements</span></div>
+        <div class="layers"><div class="layer layer--top"><span class="layer-tag">Client</span><span class="layer-ab">SLA<span class="lv" data-v="sla">99,9 %</span></span><p>Ce qui est promis et facturé : disponibilité, délais de rétablissement, crédits et pénalités.</p></div><div class="layer"><span class="layer-tag">Service</span><span class="layer-ab">SLO<span class="lv" data-v="slo">99,95 %</span></span><p>L&#x27;objectif interne, plus strict que le SLA, et son budget d&#x27;erreur.</p></div><div class="layer-split"><div class="layer"><span class="layer-tag">Équipes internes</span><span class="layer-ab">OLA<span class="lv" data-v="ola">99,988 %</span></span><p>Run, plateforme, réseau, sécurité : ce que chaque équipe s&#x27;engage à tenir pour le service.</p></div><div class="layer layer--uc"><span class="layer-tag">Fournisseurs</span><span class="layer-ab">UC<span class="lv" data-v="uc">99,988 %</span></span><p>Cloud, télécom, éditeurs, datacenter : les contrats de sous-traitance qui doivent couvrir le SLO.</p></div></div><div class="layer"><span class="layer-tag">Mesure</span><span class="layer-ab">SLI<span class="lv" data-v="sli">≥ 99,95 %</span></span><p>Les indicateurs tirés de la supervision existante (Zabbix, Dynatrace, Centreon, Prometheus), avec une méthode de calcul auditable.</p></div><div class="layer layer--base"><span class="layer-tag">Réalité</span><span class="layer-ab">Capacité mesurée</span><p>L&#x27;historique observé : disponibilité réelle, incidents, tests de résilience.</p></div></div>
+        <div class="rail rail--down" aria-hidden="true"><span>Pénalités</span></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section class="section section--tool" id="formules"><div class="wrap">
+  <div class="calc">
+    <div class="calc-head"><h2>Comment les chiffres sont calculés</h2><p>Les exemples se recalculent avec la disponibilité choisie dans le calculateur. <strong class="lv" data-v="sla">99,9 %</strong></p></div>
+    <dl class="formulas"><div class="formula" id="f-budget"><dt>Budget d&#x27;erreur</dt><dd><code>B = (1 − SLO) × période</code><p>Le temps d&#x27;indisponibilité autorisé sur la période (ici 30 jours = 43 200 min).</p><p class="ex"><span>Exemple</span>Avec un SLO de <span class="lv" data-v="slo">99,95 %</span> : (1 − <span class="lv" data-v="slo">99,95 %</span>) × 43 200 min = <span class="lv" data-v="budget_plain">22 min</span> par mois.</p></dd></div><div class="formula" id="f-slo"><dt>SLO à partir du SLA</dt><dd><code>SLO = 1 − (1 − SLA) × (1 − m)</code><p>On garde une marge m = 50 % du budget du SLA pour réagir avant la pénalité.</p><p class="ex"><span>Exemple</span>SLA <span class="lv" data-v="sla">99,9 %</span> : budget du SLA <span class="lv" data-v="budget_sla">43 min</span> par mois, dont on garde la moitié ⇒ SLO <span class="lv" data-v="slo">99,95 %</span>.</p></dd></div><div class="formula" id="f-serie"><dt>Maillons en série</dt><dd><code>A = A₁ × A₂ × … × Aₙ  ⇒  Aᵢ ≥ SLO^(1/n)</code><p>Si 3 équipes et 1 fournisseur sont tous nécessaires (n = 4), chacun doit faire mieux que le SLO.</p><p class="ex"><span>Exemple</span><span class="lv" data-v="slo">99,95 %</span>^(1/4) = <span class="lv" data-v="link">99,988 %</span> pour chacun des 4 maillons (3 OLA + 1 UC).</p></dd></div><div class="formula" id="f-para"><dt>Redondance</dt><dd><code>A = 1 − (1 − a)ᵏ</code><p>Deux instances indépendantes à 99,5 % chacune donnent 99,9975 % : c&#x27;est l&#x27;architecture qui permet de promettre plus.</p><p class="ex"><span>Exemple</span>2 × 99,5 % en parallèle ⇒ 1 − 0,005² = 99,9975 %.</p></dd></div><div class="formula" id="f-sli"><dt>SLI</dt><dd><code>SLI = événements conformes / événements valides</code><p>Mesuré sur 30 jours glissants. Exemple : 999 600 requêtes réussies sur 1 000 000 = 99,96 %.</p><p class="ex"><span>Exemple</span>999 600 / 1 000 000 = 99,96 %.</p></dd></div></dl>
+  </div>
+</div></section>
+
+<section class="section section--tint" id="formations" aria-labelledby="formations-h"><div class="wrap">
+  <div class="section-head"><h2 id="formations-h">Aller plus loin</h2><p class="lead">Trois formations du catalogue appliquent cette chaîne à vos propres services.</p></div>
+  <ul class="modules modules--wide"><li><a href="/formations/sre-slo/"><span class="m-h"><strong>SRE &amp; SLO</strong><em>2 jours</em></span><span>Mesurer la fiabilité du point de vue de l&#x27;utilisateur, fixer des objectifs et piloter les arbitrages par le budget d&#x27;erreur.</span></a></li><li><a href="/formations/service-level-management/"><span class="m-h"><strong>Service Level Management : SLA, OLA et UC</strong><em>2 jours</em></span><span>Rédiger des engagements de service tenables, du contrat client jusqu&#x27;aux équipes internes et aux fournisseurs.</span></a></li><li><a href="/formations/slo-ia/"><span class="m-h"><strong>Niveaux de service pour l&#x27;IA : SLO des LLM et des agents</strong><em>2 jours</em></span><span>Appliquer aux services d&#x27;IA la discipline qui rend les plateformes fiables : mesurer, s&#x27;engager, piloter.</span></a></li></ul>
+  <div class="links"><a href="https://github.com/metafive-ai/service-level-management" rel="noopener">Référentiel SLM open source</a><a href="/#methode">La méthode de conseil</a></div>
+</div></section>
+</main>
+
+<section class="contact" id="contact" aria-labelledby="contact-h"><div class="wrap">
+  <h2 id="contact-h">Parlons de votre plateforme</h2>
+  <p>Un premier échange de 30 minutes pour comprendre votre contexte : architecture, enjeux de conformité, engagements, échéances.</p>
+  <div class="hero-actions">
+    <a class="btn btn--light" href="https://calendly.com/metafive" rel="noopener">Prendre rendez-vous</a>
+    <a class="btn btn--ghost" href="mailto:mo@metafive.ai">Écrire un email · mo@metafive.ai</a>
+  </div>
+  <p class="where">Basé à Paris – La Défense. Missions sur site, hybrides ou à distance.</p>
+</div></section>
+
+<footer class="foot"><div class="wrap">
+  <span>© 2026 Metafive.ai</span>
+  <details><summary>Mentions légales</summary><p>Éditeur et directeur de la publication : Mohamed Ben Lakhoua (Metafive.ai), Courbevoie, France — mo@metafive.ai.</p><p>Hébergement : Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, États-Unis.</p><p>Ce site ne dépose aucun cookie et n&#x27;utilise aucun outil de mesure d&#x27;audience. La prise de rendez-vous est assurée par Calendly ; les vidéos, lorsqu&#x27;elles sont lancées, par YouTube.</p></details>
+</div></footer>
+<script src="/assets/site.js?v=8ae3e9e28d" defer></script>
+</body>
+</html>

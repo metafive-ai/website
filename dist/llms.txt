@@ -10,15 +10,15 @@
 - Lab: Metafive 360°, a personal research project on governing several AI agents, with algorithmic trading as the test bed. No investment advice, no signals, no third-party asset management.
 
 ## Training catalogue 2026
-- Agentic AI: governance, security and guardrails (2 days)
-- The AI Act after the Digital Omnibus, and ISO/IEC 42001 (1 day)
-- Resilience and cyber regulation: DORA, NIS2, CRA (3 days)
-- Service levels for AI: SLOs for LLMs and agents (2 days)
-- Cloud and AI FinOps (1 day)
-- Sovereign and hybrid cloud architecture (3 days)
-- Platform Engineering and AI-assisted delivery (2 days)
-- SRE & SLOs (2 days)
-- Service Level Management: SLAs, OLAs and UCs (2 days)
+- [Agentic AI: governance, security and guardrails](https://www.metafive.ai/en/training/agentic-ai/): 2 days. Putting AI agents into production in IT without losing control of what they do.
+- [The AI Act after the Digital Omnibus, and ISO/IEC 42001](https://www.metafive.ai/en/training/ai-act-iso-42001/): 1 day. Knowing what already applies, what was postponed, and building an auditable AI governance now.
+- [Resilience and cyber regulation: DORA, NIS2, CRA](https://www.metafive.ai/en/training/dora-nis2-cra/): 3 days. Linking the new obligations to architecture and operations, so you hold up when a link fails and can prove it.
+- [Service levels for AI: SLOs for LLMs and agents](https://www.metafive.ai/en/training/slos-for-ai/): 2 days. Applying to AI services the discipline that makes platforms reliable: measure, commit, steer.
+- [Cloud and AI FinOps](https://www.metafive.ai/en/training/cloud-ai-finops/): 1 day. Making cloud, GPU and inference costs visible and arbitrable before they drift.
+- [Sovereign and hybrid cloud architecture](https://www.metafive.ai/en/training/sovereign-cloud/): 3 days. Deciding where each workload belongs between public cloud, trusted cloud and private infrastructure, while keeping reversibility.
+- [Platform Engineering and AI-assisted delivery](https://www.metafive.ai/en/training/platform-engineering/): 2 days. Delivering more often and more safely with an internal platform run as a product, and governed coding assistants.
+- [SRE & SLOs](https://www.metafive.ai/en/training/sre-slos/): 2 days. Measuring reliability from the user's point of view, setting objectives and steering trade-offs with the error budget.
+- [Service Level Management: SLAs, OLAs and UCs](https://www.metafive.ai/en/training/service-level-management/): 2 days. Writing achievable service commitments, from the customer contract down to internal teams and suppliers.
 
 Format: 6 to 12 participants from the same organisation, working on your real cases. On site in the Paris region, or remote in half-day sessions. In French, English or Arabic; materials in French or English. Programme adjusted after a scoping interview; courses can be combined into tracks. The courses do not prepare for official certification exams and are not legal advice. Prices are not published.
 
@@ -41,6 +41,10 @@ Based in Paris – La Défense. On-site, hybrid or remote engagements.
 - Home, English: https://www.metafive.ai/en/
 - Training and courses, French: https://www.metafive.ai/formations/
 - Training and courses, English: https://www.metafive.ai/en/training/
+- SLA, SLO, OLA and error budget calculator, French: https://www.metafive.ai/niveaux-de-service/
+- SLA, SLO, OLA and error budget calculator, English: https://www.metafive.ai/en/service-levels/
+
+Each course has its own page in English (linked above) and in French, under https://www.metafive.ai/formations/
 
 ## Open source
 - Service Level Management reference: https://github.com/metafive-ai/service-level-management
