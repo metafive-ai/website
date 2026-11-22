@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Build the static site into ../dist (FR at /, EN at /en/)."""
-import html, math, os, shutil, datetime, hashlib
+import html, json, math, os, re, shutil, datetime, hashlib
 import content as C
 import courses as K
 import school as S
@@ -49,7 +49,59 @@ def sla_label(v, lang):
     return (v.replace(".", ",") + " %") if lang == "fr" else v + "%"
 
 
-def shell(T, path, other_path, title, description, body, active=""):
+ORG_ID = C.SITE + "/#org"
+PERSON_ID = C.SITE + "/#mohamed-ben-lakhoua"
+ORG_DESC = {
+    "fr": ("Conseil et formation indépendants en architecture cloud et infrastructure, niveaux de service, "
+           "résilience et conformité des plateformes critiques."),
+    "en": ("Independent consulting and training in cloud and infrastructure architecture, service levels, "
+           "resilience and compliance for critical platforms."),
+}
+
+
+def ld_json(lang, extra=()):
+    """Structured data: the person, the business and the site, plus page-specific nodes.
+    Only facts visible on the site go here. No certifications, ratings or prices."""
+    graph = [
+        {"@type": "Person", "@id": PERSON_ID, "name": "Mohamed Ben Lakhoua",
+         "jobTitle": "Infrastructure & Cloud Architect", "url": C.SITE + "/",
+         "image": C.SITE + "/assets/img/mohamed-ben-lakhoua.jpg",
+         "worksFor": {"@id": ORG_ID}, "knowsLanguage": ["fr", "en", "ar"],
+         "knowsAbout": ["Cloud architecture", "Service Level Management", "Site Reliability Engineering", "FinOps",
+                        "Business continuity", "Digital Operational Resilience Act (DORA)"],
+         "sameAs": [C.LINKEDIN, C.GITHUB]},
+        {"@type": "ProfessionalService", "@id": ORG_ID, "name": "Metafive.ai", "url": C.SITE + "/",
+         "description": ORG_DESC[lang], "image": C.SITE + "/assets/img/og.jpg", "email": C.EMAIL,
+         "founder": {"@id": PERSON_ID},
+         "address": {"@type": "PostalAddress", "addressLocality": "Courbevoie", "addressCountry": "FR"},
+         "areaServed": "FR", "availableLanguage": ["fr", "en", "ar"],
+         "sameAs": ["https://github.com/metafive-ai"]},
+        {"@type": "WebSite", "@id": C.SITE + "/#website", "url": C.SITE + "/", "name": "Metafive.ai",
+         "inLanguage": ["fr", "en"], "publisher": {"@id": ORG_ID}},
+    ]
+    graph.extend(extra)
+    out = json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False, separators=(",", ":"))
+    return out.replace("</", "<\\/")
+
+
+def iso_days(duration):
+    """'2 jours' / '1 day' -> 'P2D' / 'P1D'."""
+    return "P%dD" % int(re.search(r"\d+", duration).group(0))
+
+
+def breadcrumb_ld(pairs):
+    return {"@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": i, "name": n, "item": C.SITE + p} for i, (n, p) in enumerate(pairs, start=1)]}
+
+
+def course_ld(c, lang, url):
+    return {"@type": "Course", "@id": url, "name": c["title"], "description": c["tagline"], "inLanguage": lang,
+            "url": url, "timeRequired": iso_days(c["duration"]),
+            "audience": {"@type": "Audience", "audienceType": c["audience"]},
+            "provider": {"@id": ORG_ID}}
+
+
+def shell(T, path, other_path, title, description, body, active="", ld_extra=()):
     """Common <head>, header, contact and footer for every page."""
     legal = "".join(f"<p>{e(x)}</p>" for x in T["legal"])
     lang = T["lang"]
@@ -59,11 +111,7 @@ def shell(T, path, other_path, title, description, body, active=""):
     nav = "".join(
         f'<a href="{(h if path == home or not h.startswith("#") else home + h)}"'
         f'{" aria-current=\"page\"" if h == active else ""}>{e(t)}</a>' for h, t in T["nav"])
-    ld = ('{"@context":"https://schema.org","@type":"ProfessionalService","name":"Metafive.ai",'
-          f'"url":"{C.SITE}","email":"{C.EMAIL}","areaServed":"FR",'
-          '"address":{"@type":"PostalAddress","addressLocality":"Courbevoie","addressCountry":"FR"},'
-          '"founder":{"@type":"Person","name":"Mohamed Ben Lakhoua","jobTitle":"Infrastructure & Cloud Architect",'
-          f'"sameAs":["{C.LINKEDIN}","{C.GITHUB}"]}}}}')
+    ld = ld_json(lang, ld_extra)
     return f"""<!doctype html>
 <html lang="{lang}">
 <head>
@@ -76,6 +124,8 @@ def shell(T, path, other_path, title, description, body, active=""):
 <link rel="alternate" hreflang="{"en" if lang == "fr" else "fr"}" href="{alt}">
 <link rel="alternate" hreflang="x-default" href="{canonical if lang == "fr" else alt}">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Metafive.ai">
+<meta property="og:locale" content="{"fr_FR" if lang == "fr" else "en_GB"}">
 <meta property="og:title" content="{e(title)}">
 <meta property="og:description" content="{e(description)}">
 <meta property="og:url" content="{canonical}">
@@ -524,7 +574,61 @@ def course_page(T, KT):
 </div></section>
 """
     nav_active = KT["path"]
-    return shell(T, KT["path"], KT["other_path"], KT["title"], KT["description"], body, active=nav_active)
+    lang = T["lang"]
+    catalogue = {"@type": "ItemList", "name": KT["index_h2"], "numberOfItems": len(KT["courses"]),
+                 "itemListElement": [
+                     {"@type": "ListItem", "position": i,
+                      "item": course_ld(c, lang, f'{C.SITE}{KT["path"]}#{c["id"]}')}
+                     for i, c in enumerate(KT["courses"], start=1)]}
+    crumbs = breadcrumb_ld([(T["home_label"], T["path"]), (ST["page_h1"], KT["path"])])
+    return shell(T, KT["path"], KT["other_path"], KT["title"], KT["description"], body, active=nav_active,
+                 ld_extra=[catalogue, crumbs])
+
+
+def llms_txt():
+    """Plain-language description of the site for AI assistants (llms.txt convention).
+    Generated from the same data as the pages so it cannot drift. Facts only."""
+    T, KT = C.EN, K.EN
+    courses = "\n".join(f'- {c["title"]} ({c["duration"]})' for c in KT["courses"])
+    fmt = " ".join(f"{b}" for _, b in KT["format"])
+    track = "\n".join(f"- {when}: {role}, {org}. {ctx}" for when, role, org, ctx, _ in T["lead_tl"])
+    return f"""# Metafive.ai — Mohamed Ben Lakhoua
+
+> Infrastructure & Cloud Architect based in Paris – La Défense (Courbevoie, France). Thirty years leading, designing and hardening critical platforms in Tunisia, Qatar, the United Arab Emirates, Germany and France. Independent consulting and training under the name Metafive.ai. Works in French, English and Arabic.
+
+## What I do
+- Consulting: cloud and hybrid architecture; resilience and compliance (business continuity, DORA, ISO 22301, ISO/IEC 27001 audit preparation); Service Level Management and operational excellence (the SLI → SLO → OLA → UC → SLA chain, SRE, ITIL); AI automation of IT operations with human sign-off.
+- In-house training: {len(KT["courses"])} courses for IT teams in the 2026 catalogue, 1 to 3 days each.
+- Courses for schools and universities: Bachelor's and Master's modules on IT service governance, infrastructure design, project steering, security and compliance.
+- Technology leadership: open to CTO, VP Engineering / VP Platform and Director Infrastructure & Cloud roles.
+- Lab: Metafive 360°, a personal research project on governing several AI agents, with algorithmic trading as the test bed. No investment advice, no signals, no third-party asset management.
+
+## Training catalogue 2026
+{courses}
+
+Format: {fmt} The courses do not prepare for official certification exams and are not legal advice. Prices are not published.
+
+## Track record
+{track}
+
+## Where and how
+{T["contact_where"]}
+
+## Contact
+- Email: {C.EMAIL}
+- Book a 30-minute call: {C.CALENDLY}
+- LinkedIn: {C.LINKEDIN}
+
+## Key pages
+- Home, French: {C.SITE}{C.FR["path"]}
+- Home, English: {C.SITE}{C.EN["path"]}
+- Training and courses, French: {C.SITE}{K.FR["path"]}
+- Training and courses, English: {C.SITE}{K.EN["path"]}
+
+## Open source
+- Service Level Management reference: {C.GITHUB_SLM}
+- agent-constitution, governance of AI coding agents: {T["AC"]}
+"""
 
 
 def main():
@@ -547,6 +651,7 @@ def main():
         f'<url><loc>{C.SITE}/en/</loc><lastmod>{today}</lastmod></url>\n'
         f'<url><loc>{C.SITE}{K.FR["path"]}</loc><lastmod>{today}</lastmod></url>\n'
         f'<url><loc>{C.SITE}{K.EN["path"]}</loc><lastmod>{today}</lastmod></url>\n</urlset>\n')
+    open(os.path.join(DIST, "llms.txt"), "w", encoding="utf-8").write(llms_txt())
     print("built", DIST)
 
 

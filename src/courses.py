@@ -7,8 +7,8 @@ CRA reporting from 11 Sept 2026; NIS2 French transposition (loi Résilience) sti
 
 FR = dict(
     path="/formations/", other_path="/en/training/",
-    title="Formations et cours 2026 — IA agentique, AI Act, DORA, NIS2, CRA, FinOps, SLO | Metafive.ai",
-    description="Formations en entreprise et cours en écoles et universités. Catalogue 2026 : IA agentique et garde-fous, AI Act après l'Omnibus numérique, DORA, NIS2 et Cyber Resilience Act, niveaux de service pour l'IA, FinOps du cloud et de l'IA, cloud souverain, Platform Engineering, SRE, SLA/OLA/UC.",
+    title="Formations intra-entreprise : SRE, SLA, DORA, FinOps, IA",
+    description="Neuf formations intra-entreprise de 1 à 3 jours : SRE et SLO, SLA/OLA/UC, DORA et NIS2, FinOps, cloud souverain, IA agentique, AI Act. Cours en écoles.",
     h1="Formations 2026",
     intro="Les sujets sur lesquels les équipes IT doivent monter en compétence cette année : l'IA qui passe en production, la réglementation qui entre en application, et les coûts qu'il faut maîtriser. Chaque cours est construit sur vos propres services et se termine par des livrables utilisables dès le lendemain.",
     format_h2="Format",
@@ -237,8 +237,8 @@ FR = dict(
 
 EN = dict(
     path="/en/training/", other_path="/formations/",
-    title="Training and courses 2026 — Agentic AI, AI Act, DORA, NIS2, CRA, FinOps, SLOs | Metafive.ai",
-    description="In-house training and courses for schools and universities. 2026 catalogue: agentic AI and guardrails, the AI Act after the Digital Omnibus, DORA, NIS2 and the Cyber Resilience Act, service levels for AI, cloud and AI FinOps, sovereign cloud, Platform Engineering, SRE, SLA/OLA/UC.",
+    title="In-house IT training: SRE, SLAs, DORA, FinOps, agentic AI",
+    description="Nine in-house courses of 1 to 3 days: SRE and SLOs, SLA/OLA/UC, DORA and NIS2, FinOps, sovereign cloud, agentic AI, the AI Act. University modules too.",
     h1="Training 2026",
     intro="The topics IT teams need to master this year: AI moving into production, regulation coming into application, and costs that need to be controlled. Each course is built on your own services and ends with deliverables you can use the next day.",
     format_h2="Format",

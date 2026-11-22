@@ -7,7 +7,7 @@ Site vitrine statique, une page, en français (`/`) et en anglais (`/en/`). Héb
 | Chemin | Rôle |
 |---|---|
 | `src/content.py` | **Tout le texte du site** (FR et EN), liens, liste des vidéos YouTube |
-| `src/build.py` | Génère `dist/` (pages FR et EN, sitemap) |
+| `src/build.py` | Génère `dist/` (pages FR et EN, sitemap, `llms.txt`, données structurées schema.org) |
 | `src/assets/` | CSS, JS (calculateur de la chaîne SLA → SLO → OLA, lecteur YouTube), polices IBM Plex Sans auto-hébergées, images |
 | `src/static/` | Fichiers copiés tels quels : favicon, robots.txt, `_headers` (en-têtes de sécurité Cloudflare), 404 |
 | `dist/` | Site généré, publié par Cloudflare Pages |
@@ -49,7 +49,8 @@ La section « Vidéos » apparaît automatiquement. Rien n'est chargé depuis Yo
 ## Principes
 
 - Aucun cookie, aucun outil de mesure d'audience, aucune ressource tierce chargée par défaut (RGPD).
-- Les faits (dates, chiffres, certifications) viennent du dépôt privé `mlakhoua-rgb/cv`, qui est la source de vérité.
+- Les faits (dates, chiffres, certifications) viennent du dépôt privé `mlakhoua-rgb/personal` (ex-`cv`), qui est la source de vérité.
+- Référencement : titres ≤ 60 caractères et descriptions ≤ 155 ; les données structurées et `llms.txt` sont générés à partir des mêmes textes que les pages et ne contiennent que des faits visibles sur le site (ni certification, ni prix, ni avis).
 
 ## Production (en service depuis le 2026-11-07)
 
