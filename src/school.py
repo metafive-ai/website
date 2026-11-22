@@ -3,7 +3,9 @@
 Module titles come from academic Bac+5 programmes in infrastructure, governance and security.
 Duration, content and assessment are set by each institution's pedagogical team: never publish
 durations here. Do not name a school or a certification code publicly without Mohamed's approval.
-Hands-on offensive security, SOC/forensics and SIEM are deliberately not offered."""
+Hands-on offensive security, SOC/forensics and SIEM are deliberately not offered.
+The worked example (ex_*) follows the same rules: sequences, not days or hours, and no block or
+competency codes. Teaching facts (teach) come from the reference letters in the private repo."""
 
 FR = dict(
     page_h1="Formations et cours",
@@ -47,7 +49,7 @@ FR = dict(
          "Cloud, hybride et plateformes à grande échelle.",
          ["Conception d'infrastructures cloud et hybrides",
           "Automatisation et usine logicielle (CI/CD, Platform Engineering)",
-          "Gouvernance des identités et des accès"]),
+          "Gestion des identités et des accès (IAM)"]),
         ("Pilotage de projets et conduite du changement",
          "Programmes de transformation, équipes multiculturelles, budgets.",
          ["Étude d'avant-projet",
@@ -73,6 +75,39 @@ FR = dict(
           "Projets : audit d'infrastructures, volet conformité",
           "Jurys d'épreuves certifiantes et de projets professionnels"]),
     ],
+    ex_h3="Exemple d'intervention : gestion des identités et des accès (IAM)",
+    ex_intro=("Un module tel que je le construis à partir de la fiche de l'établissement : compétences visées, "
+              "objectifs pédagogiques, plan, exercices et livrables. Chaque séquence alterne apports, cas réels "
+              "et atelier avec livrable."),
+    ex_parts=[
+        ("Fondements et modèles",
+         "Enjeux, acteurs et risques ; modèles centralisé, décentralisé et fédéré.",
+         ["Atelier : audit de risques d'un système existant",
+          "Atelier : choix argumenté d'un modèle pour une organisation"]),
+        ("Processus et technologies",
+         "Provisioning, déprovisioning, gestion et revue des accès ; annuaires, fédération et SSO, MFA.",
+         ["Atelier : plan des processus de gestion des identités",
+          "Atelier : choix des briques et plan de mise en œuvre"]),
+        ("Conformité et audit",
+         "RGPD, ISO 27001, NIST SP 800-63 ; suivi, audit et actions correctives.",
+         ["Atelier : plan d'audit de conformité",
+          "Restitution croisée et évaluation"]),
+    ],
+    ex_cases_h4="Cas réels apportés",
+    ex_cases=["Programme Portail e-Government et Single Sign-On d'Abu Dhabi",
+              "Comptes, rôles et journalisation d'un environnement AWS multi-comptes",
+              "Le contrôle d'accès vu par l'auditeur ISO 27001"],
+    ex_method_h4="Pédagogie",
+    ex_method=("Cours interactifs appuyés sur des cas réels, ateliers guidés avec livrables, classe inversée, "
+               "évaluation formative (QCM, audits croisés, revue par les pairs), projet fil rouge."),
+    teach_h3="Expérience d'enseignement",
+    teach=["Enseignement dès 1998 : applications informatiques et programmes de formation à l'Institut de "
+           "Développement Administratif de Doha.",
+           "Formateur aux 15ᵉ Jeux asiatiques de Doha (2006) : sessions d'accueil et de formation générale, "
+           "programme de leadership ; plus de 31 500 personnes formées par le programme.",
+           "Création de la première académie e-Learning Microsoft du Golfe : plus de 1 000 professionnels IT formés.",
+           "Série vidéo « From SLI to SLO », ateliers et communauté « SRE Champions » au sein d'un grand groupe "
+           "bancaire français."],
     cta_h3="Responsable pédagogique ?",
     cta_p="Envoyez-moi la fiche du module : je vous réponds avec une proposition d'intervention alignée sur votre référentiel.",
     cta_mail="Écrire à",
@@ -125,7 +160,7 @@ EN = dict(
          "Cloud, hybrid and platforms at scale.",
          ["Cloud and hybrid infrastructure design",
           "Automation and software factory (CI/CD, Platform Engineering)",
-          "Identity and access governance"]),
+          "Identity and access management (IAM)"]),
         ("Project management and change",
          "Transformation programmes, multicultural teams, budgets.",
          ["Pre-project study",
@@ -151,6 +186,39 @@ EN = dict(
           "Projects: infrastructure audit, compliance side",
           "Certification exam and professional project panels"]),
     ],
+    ex_h3="A worked example: identity and access management (IAM)",
+    ex_intro=("A module as I build it from the institution's module description: target competencies, learning "
+              "objectives, outline, exercises and deliverables. Each sequence combines input, real cases and a "
+              "workshop with a deliverable."),
+    ex_parts=[
+        ("Foundations and models",
+         "Stakes, actors and risks; centralised, decentralised and federated models.",
+         ["Workshop: risk audit of an existing system",
+          "Workshop: reasoned choice of a model for an organisation"]),
+        ("Processes and technologies",
+         "Provisioning, deprovisioning, access management and access reviews; directories, federation and SSO, MFA.",
+         ["Workshop: plan for the identity management processes",
+          "Workshop: choice of building blocks and implementation plan"]),
+        ("Compliance and audit",
+         "GDPR, ISO 27001, NIST SP 800-63; monitoring, audit and corrective actions.",
+         ["Workshop: compliance audit plan",
+          "Peer presentations and assessment"]),
+    ],
+    ex_cases_h4="Real cases I bring",
+    ex_cases=["The Abu Dhabi e-Government Portal and Single Sign-On programme",
+              "Accounts, roles and logging in a multi-account AWS environment",
+              "Access control as seen by the ISO 27001 auditor"],
+    ex_method_h4="Teaching methods",
+    ex_method=("Interactive lectures built on real cases, guided workshops with deliverables, flipped classroom, "
+               "formative assessment (quizzes, cross-audits, peer review), a project running through the year."),
+    teach_h3="Teaching experience",
+    teach=["Teaching since 1998: computer applications and training programmes at the Institute of "
+           "Administrative Development in Doha.",
+           "Trainer at the 15th Asian Games in Doha (2006): induction and general training sessions, leadership "
+           "programme; more than 31,500 people trained by the programme.",
+           "Founded the first Microsoft e-Learning academy in the Gulf: more than 1,000 IT professionals trained.",
+           "“From SLI to SLO” video series, workshops and an “SRE Champions” community inside a major French "
+           "banking group."],
     cta_h3="Programme lead?",
     cta_p="Send me the module description: I will reply with a teaching proposal aligned with your framework.",
     cta_mail="Write to",

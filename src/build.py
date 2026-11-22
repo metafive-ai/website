@@ -473,6 +473,11 @@ def course_page(T, KT):
     groups = "".join(
         f'<article class="sgroup"><h4>{e(n)}</h4><p>{e(d)}</p><ul>' + "".join(f"<li>{e(x)}</li>" for x in xs) + "</ul></article>"
         for n, d, xs in ST["groups"])
+    ex_parts = "".join(
+        f'<article class="sgroup"><h4>{e(n)}</h4><p>{e(d)}</p><ul>' + "".join(f"<li>{e(x)}</li>" for x in xs) + "</ul></article>"
+        for n, d, xs in ST["ex_parts"])
+    ex_cases = "".join(f"<li>{e(x)}</li>" for x in ST["ex_cases"])
+    teach = "".join(f"<li>{e(x)}</li>" for x in ST["teach"])
     body = f"""
 <section class="page-hero"><div class="wrap">
   <p class="crumb"><a href="{T["path"]}">{e(KT["back"])}</a></p>
@@ -506,6 +511,14 @@ def course_page(T, KT):
   <h3 class="h3-gap">{e(ST["groups_h3"])}</h3>
   <div class="sgroups">{groups}</div>
   <p class="muted school-note">{e(ST["note"])}</p>
+  <h3 class="h3-gap" id="exemple">{e(ST["ex_h3"])}</h3>
+  <p class="school-ex-intro">{e(ST["ex_intro"])}</p>
+  <div class="sgroups">{ex_parts}</div>
+  <div class="school-ex">
+    <div><h4>{e(ST["ex_cases_h4"])}</h4><ul>{ex_cases}</ul></div>
+    <div><h4>{e(ST["ex_method_h4"])}</h4><p>{e(ST["ex_method"])}</p></div>
+  </div>
+  <aside class="proof school-teach"><h3>{e(ST["teach_h3"])}</h3><ul>{teach}</ul></aside>
   <div class="school-cta"><h3>{e(ST["cta_h3"])}</h3><p>{e(ST["cta_p"])}</p>
     <p><a class="btn" href="mailto:{C.EMAIL}">{e(ST["cta_mail"])} {C.EMAIL}</a></p></div>
 </div></section>

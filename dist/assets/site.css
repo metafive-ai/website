@@ -472,6 +472,15 @@ p { margin: 0; }
 .school-note { margin-top: 1.75rem; max-width: var(--measure); font-size: .92rem; color: var(--steel); }
 .school-cta { margin-top: 2rem; padding: 1.5rem; border-left: 3px solid var(--signal); background: var(--white); border-radius: .6rem; max-width: var(--measure); }
 .school-cta p { margin-top: .5rem; }
+.school-ex-intro { margin-top: .6rem; max-width: var(--measure); color: var(--ink-2); }
+.school-ex { margin-top: 1.25rem; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 2rem; }
+.school-ex h4 { font-size: var(--step-1); }
+.school-ex ul { margin: .6rem 0 0; padding-left: 1.1rem; }
+.school-ex li { margin-top: .35rem; line-height: 1.45; }
+.school-ex li::marker { color: var(--signal); }
+.school-ex p { margin-top: .6rem; color: var(--ink-2); line-height: 1.5; }
+@media (max-width: 760px) { .school-ex { grid-template-columns: 1fr; } }
+.school-teach { margin-top: 2rem; max-width: var(--measure); }
 .school-teaser { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
 .school-teaser p { margin-top: .5rem; color: var(--ink-2); }
 
