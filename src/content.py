@@ -19,11 +19,11 @@ FR = dict(
     other_path='/en/',
     other_label='EN',
     other_name='English',
-    title='Mohamed Ben Lakhoua — Leadership technologique, Conseil Cloud & SLM, Formation | Metafive.ai',
-    description=('Trente ans à diriger et fiabiliser des plateformes critiques. Leadership technologique (CTO, VP, '
-     'Director), conseil en architecture cloud et niveaux de service, formations 2026 (IA agentique, AI Act, '
-     "DORA, NIS2, CRA, FinOps), laboratoire d'IA et de trading quantitatif."),
+    title='Mohamed Ben Lakhoua — Architecte Infrastructure & Cloud',
+    description=('Architecte infrastructure et cloud à Paris – La Défense : niveaux de service (SLA, SLO, OLA), '
+     'résilience, conformité DORA, FinOps. Conseil et formation.'),
     skip='Aller au contenu',
+    home_label='Accueil',
     nav=[('#leadership', 'Leadership'),
      ('#conseil', 'Conseil'),
      ('/formations/', 'Formations'),
@@ -413,11 +413,11 @@ EN = dict(
     other_path='/',
     other_label='FR',
     other_name='Français',
-    title='Mohamed Ben Lakhoua — Technology leadership, Cloud & SLM consulting, Training | Metafive.ai',
-    description=('Thirty years leading and hardening critical platforms. Technology leadership (CTO, VP, Director), cloud '
-     'architecture and service level consulting, 2026 training (agentic AI, AI Act, DORA, NIS2, CRA, FinOps), AI '
-     'and quantitative trading lab.'),
+    title='Mohamed Ben Lakhoua — Infrastructure & Cloud Architect',
+    description=('Infrastructure and cloud architect in Paris: service levels (SLA, SLO, OLA), resilience, DORA '
+     'compliance, FinOps. Consulting and in-house training.'),
     skip='Skip to content',
+    home_label='Home',
     nav=[('#leadership', 'Leadership'),
      ('#conseil', 'Consulting'),
      ('/en/training/', 'Training'),
