@@ -24,6 +24,21 @@ FR = dict(
      'résilience, conformité DORA, FinOps. Conseil et formation.'),
     skip='Aller au contenu',
     home_label='Accueil',
+    # the calculator's own page (the home page keeps the panel and links here for the formulas)
+    levels_path='/niveaux-de-service/', levels_other_path='/en/service-levels/',
+    levels_title="Calculateur SLA, SLO, OLA et budget d'erreur | Metafive.ai",
+    levels_description=("Choisissez une disponibilité : le calculateur en déduit le SLO, le budget d'erreur, "
+                        "l'OLA de chaque équipe et l'UC du fournisseur. Formules incluses."),
+    levels_kicker='Niveaux de service',
+    levels_h1="Calculateur SLA, SLO, OLA et budget d'erreur",
+    levels_intro=("Un SLA n'est opposable que s'il repose sur des OLA et des UC tenables, eux-mêmes adossés à des "
+                  "mesures fiables. Choisissez la disponibilité promise au client : toute la chaîne se recalcule, "
+                  "du SLO interne à ce que chaque équipe et chaque fournisseur doit tenir."),
+    levels_link='Voir les formules de calcul',
+    levels_link_p='Les cinq formules et leurs exemples, sur une page dédiée.',
+    levels_more_h2='Aller plus loin',
+    levels_more_p='Trois formations du catalogue appliquent cette chaîne à vos propres services.',
+    levels_method='La méthode de conseil',
     nav=[('#leadership', 'Leadership'),
      ('#conseil', 'Conseil'),
      ('/formations/', 'Formations'),
@@ -418,6 +433,20 @@ EN = dict(
      'compliance, FinOps. Consulting and in-house training.'),
     skip='Skip to content',
     home_label='Home',
+    levels_path='/en/service-levels/', levels_other_path='/niveaux-de-service/',
+    levels_title='SLA, SLO, OLA and error budget calculator | Metafive.ai',
+    levels_description=('Pick an availability: the calculator derives the SLO, the error budget, and what each '
+                        'team (OLA) and supplier (UC) must deliver. Formulas included.'),
+    levels_kicker='Service levels',
+    levels_h1='SLA, SLO, OLA and error budget calculator',
+    levels_intro=('An SLA is only enforceable when it rests on achievable OLAs and UCs, themselves backed by '
+                  'reliable measurement. Pick the availability promised to the customer: the whole chain '
+                  'recalculates, from the internal SLO down to what each team and each supplier must deliver.'),
+    levels_link='See the formulas',
+    levels_link_p='The five formulas and their worked examples, on a dedicated page.',
+    levels_more_h2='Going further',
+    levels_more_p='Three courses in the catalogue apply this chain to your own services.',
+    levels_method='The consulting method',
     nav=[('#leadership', 'Leadership'),
      ('#conseil', 'Consulting'),
      ('/en/training/', 'Training'),
